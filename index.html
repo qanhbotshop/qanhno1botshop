@@ -37,7 +37,6 @@
             margin-bottom: 10px;
         }
 
-        /* Tên shop phát sáng nhẹ */
         .shop-name {
             font-size: 1.8rem;
             font-weight: 800;
@@ -47,7 +46,6 @@
             text-shadow: 0 0 15px rgba(30, 168, 224, 0.5), 0 0 30px rgba(30, 168, 224, 0.2);
         }
 
-        /* Tên bot phát sáng nhẹ */
         .bot-name {
             font-size: 1.2rem;
             font-weight: 700;
@@ -66,7 +64,80 @@
             box-shadow: 0 0 10px rgba(30, 168, 224, 0.5);
         }
 
-        /* ============ KHUNG KEY NGÀY (MỚI THÊM) ============ */
+        /* ============ KHUNG NHẬP KEY (MỚI - TRÊN CÙNG) ============ */
+        .input-key-wrapper {
+            width: 100%;
+        }
+
+        .input-key-card {
+            width: 100%;
+            background: #0a0a0a;
+            border: 2px solid #00ff88;
+            border-radius: 24px;
+            padding: 40px 30px 36px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), 0 0 40px rgba(0, 255, 136, 0.05), inset 0 0 20px rgba(0, 255, 136, 0.03);
+        }
+
+        .input-key-card:hover {
+            border-color: #33ff99;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.25), 0 0 60px rgba(0, 255, 136, 0.1), inset 0 0 30px rgba(0, 255, 136, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .input-key-card .card-icon {
+            font-size: 3.5rem;
+        }
+
+        .input-key-card .card-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .input-key-card .card-subtitle {
+            font-size: 1rem;
+            color: #9ba1ad;
+        }
+
+        /* Nút Nhập Key - màu xanh lá */
+        .input-key-btn {
+            display: inline-block;
+            background: #00ff88;
+            color: #000000;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 16px 48px;
+            border-radius: 50px;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4), 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-key-btn:hover {
+            background: #33ff99;
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 6px 20px rgba(0, 0, 0, 0.5);
+            transform: scale(1.03);
+        }
+
+        .input-key-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ============ KHUNG KEY NGÀY ============ */
         .free-card-wrapper {
             width: 100%;
         }
@@ -147,7 +218,6 @@
             flex-wrap: wrap;
         }
 
-        /* Khung viền xanh phát sáng nhẹ */
         .card {
             flex: 1;
             min-width: 280px;
@@ -175,7 +245,6 @@
             font-size: 3.5rem;
         }
 
-        /* Chữ trong khung phát sáng nhẹ */
         .card .card-title {
             font-size: 2.8rem;
             font-weight: 900;
@@ -191,7 +260,6 @@
             color: #9ba1ad;
         }
 
-        /* Nút MUA Ở ĐÂY - phát sáng nhẹ */
         .buy-btn {
             display: inline-block;
             background: #1ea8e0;
@@ -241,16 +309,19 @@
                 flex-direction: column;
                 gap: 24px;
             }
+            .input-key-card,
             .free-card {
                 padding: 36px 20px 30px;
             }
             .card {
                 padding: 40px 20px 32px;
             }
+            .input-key-card .card-title,
             .free-card .card-title,
             .card .card-title {
                 font-size: 2.2rem;
             }
+            .input-key-btn,
             .free-btn,
             .buy-btn {
                 font-size: 1.2rem;
@@ -261,7 +332,6 @@
 </head>
 <body>
 
-    <!-- ===== NỘI DUNG CHÍNH ===== -->
     <div class="main-container">
 
         <!-- Header -->
@@ -271,13 +341,25 @@
             <div class="divider-line"></div>
         </div>
 
-        <!-- ===== KHUNG KEY NGÀY (MỚI - MÀU VÀNG CAM) ===== -->
+        <!-- ===== KHUNG NHẬP KEY (MỚI - TRÊN CÙNG) ===== -->
+        <div class="input-key-wrapper">
+            <div class="input-key-card">
+                <div class="card-icon">🔑</div>
+                <div class="card-title">NHẬP KEY</div>
+                <div class="card-subtitle">Kích hoạt key đã mua để sử dụng bot</div>
+                <!-- ✅ LINK ĐẾN @QanhNo1bot TỰ ĐỘNG /START -->
+                <a href="https://t.me/QanhNo1bot?start=" target="_blank" class="input-key-btn">NHẬP KEY Ở ĐÂY</a>
+            </div>
+        </div>
+
+        <!-- ===== KHUNG KEY NGÀY ===== -->
         <div class="free-card-wrapper">
             <div class="free-card">
                 <div class="card-icon">🎁</div>
                 <div class="card-title">KEY NGÀY</div>
                 <div class="card-subtitle">Nhận key miễn phí dùng thử hàng ngày</div>
-                <a href="https://t.me/QanhCheater" target="_blank" class="free-btn">LẤY FREE Ở ĐÂY</a>
+                <!-- ✅ LINK ĐẾN @qanh_roszbot TỰ ĐỘNG /START -->
+                <a href="https://t.me/qanh_roszbot?start=" target="_blank" class="free-btn">LẤY FREE Ở ĐÂY</a>
             </div>
         </div>
 
