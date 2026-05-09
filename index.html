@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QANHNO1 | Thuê Bot Telegram 𝙌𝘼𝙉𝙃𝙑𝙉𝘽𝙊𝙏𝙑𝙄𝙋🇻🇳</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ============ NỘI DUNG CHÍNH ============ */
+        .main-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 20px 0;
+        }
+
+        .top-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Tên shop phát sáng nhẹ */
+        .shop-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1ea8e0;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            text-shadow: 0 0 15px rgba(30, 168, 224, 0.5), 0 0 30px rgba(30, 168, 224, 0.2);
+        }
+
+        /* Tên bot phát sáng nhẹ */
+        .bot-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1ea8e0;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(30, 168, 224, 0.4);
+        }
+
+        .divider-line {
+            width: 80px;
+            height: 2px;
+            background: #1ea8e0;
+            margin: 12px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(30, 168, 224, 0.5);
+        }
+
+        .cards-wrapper {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        /* Khung viền xanh phát sáng nhẹ */
+        .card {
+            flex: 1;
+            min-width: 280px;
+            background: #0a0a0a;
+            border: 2px solid #1ea8e0;
+            border-radius: 24px;
+            padding: 50px 30px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 20px rgba(30, 168, 224, 0.15), 0 0 40px rgba(30, 168, 224, 0.05), inset 0 0 20px rgba(30, 168, 224, 0.03);
+        }
+
+        .card:hover {
+            border-color: #3db8e8;
+            box-shadow: 0 0 30px rgba(30, 168, 224, 0.25), 0 0 60px rgba(30, 168, 224, 0.1), inset 0 0 30px rgba(30, 168, 224, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+        }
+
+        /* Chữ trong khung phát sáng nhẹ */
+        .card-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .card-subtitle {
+            font-size: 1rem;
+            color: #9ba1ad;
+        }
+
+        /* Nút MUA Ở ĐÂY - phát sáng nhẹ */
+        .buy-btn {
+            display: inline-block;
+            background: #1ea8e0;
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 16px 48px;
+            border-radius: 50px;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(30, 168, 224, 0.4), 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .buy-btn:hover {
+            background: #28b4ec;
+            box-shadow: 0 0 25px rgba(30, 168, 224, 0.6), 0 6px 20px rgba(0, 0, 0, 0.5);
+            transform: scale(1.03);
+        }
+
+        .buy-btn:active {
+            transform: scale(0.97);
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #555;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .footer-note a {
+            color: #1ea8e0;
+            text-decoration: none;
+            font-weight: 600;
+            text-shadow: 0 0 6px rgba(30, 168, 224, 0.3);
+        }
+
+        .footer-note a:hover {
+            color: #3db8e8;
+        }
+
+        @media (max-width: 650px) {
+            .cards-wrapper {
+                flex-direction: column;
+                gap: 24px;
+            }
+            .card {
+                padding: 40px 20px 32px;
+            }
+            .card-title {
+                font-size: 2.2rem;
+            }
+            .buy-btn {
+                font-size: 1.2rem;
+                padding: 14px 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NỘI DUNG CHÍNH ===== -->
+    <div class="main-container">
+
+        <!-- Header -->
+        <div class="top-header">
+            <div class="shop-name">QANHNO1</div>
+            <div class="bot-name">𝙌𝘼𝙉𝙃𝙑𝙉𝘽𝙊𝙏𝙑𝙄𝙋🇻🇳</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- 2 Khung -->
+        <div class="cards-wrapper">
+
+            <!-- Khung 1: Mua Tháng -->
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <div class="card-title">Mua Tháng</div>
+                <div class="card-subtitle">Thuê bot theo tháng · Gia hạn linh hoạt</div>
+                <a href="https://t.me/QanhCheater" target="_blank" class="buy-btn">MUA Ở ĐÂY</a>
+            </div>
+
+            <!-- Khung 2: Mua Vĩnh Viễn -->
+            <div class="card">
+                <div class="card-icon">♾️</div>
+                <div class="card-title">Mua Vĩnh Viễn</div>
+                <div class="card-subtitle">Sở hữu trọn đời · Không giới hạn</div>
+                <a href="https://t.me/QanhCheater" target="_blank" class="buy-btn">MUA Ở ĐÂY</a>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-note">
+            Liên hệ Telegram: <a href="https://t.me/QanhCheater" target="_blank">@QanhCheater</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
