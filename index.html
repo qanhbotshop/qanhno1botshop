@@ -2,394 +2,285 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>QANHNO1 | Thuê Bot Telegram 𝙌𝘼𝙉𝙃𝙑𝙉𝘽𝙊𝙏𝙑𝙄𝙋🇻🇳</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QANH BOT SHOP - Key Uy Tín - Giá Rẻ</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        /* ============ NỘI DUNG CHÍNH ============ */
-        .main-container {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            padding: 20px 0;
-        }
-
-        .top-header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .shop-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #1ea8e0;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-            text-shadow: 0 0 15px rgba(30, 168, 224, 0.5), 0 0 30px rgba(30, 168, 224, 0.2);
-        }
-
-        .bot-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #1ea8e0;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(30, 168, 224, 0.4);
-        }
-
-        .divider-line {
-            width: 80px;
-            height: 2px;
-            background: #1ea8e0;
-            margin: 12px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(30, 168, 224, 0.5);
-        }
-
-        /* ============ KHUNG NHẬP KEY (MỚI - TRÊN CÙNG) ============ */
-        .input-key-wrapper {
-            width: 100%;
-        }
-
-        .input-key-card {
-            width: 100%;
-            background: #0a0a0a;
-            border: 2px solid #00ff88;
-            border-radius: 24px;
-            padding: 40px 30px 36px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), 0 0 40px rgba(0, 255, 136, 0.05), inset 0 0 20px rgba(0, 255, 136, 0.03);
-        }
-
-        .input-key-card:hover {
-            border-color: #33ff99;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.25), 0 0 60px rgba(0, 255, 136, 0.1), inset 0 0 30px rgba(0, 255, 136, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .input-key-card .card-icon {
-            font-size: 3.5rem;
-        }
-
-        .input-key-card .card-title {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            line-height: 1.2;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .input-key-card .card-subtitle {
-            font-size: 1rem;
-            color: #9ba1ad;
-        }
-
-        /* Nút Nhập Key - màu xanh lá */
-        .input-key-btn {
-            display: inline-block;
-            background: #00ff88;
-            color: #000000;
-            font-size: 1.4rem;
-            font-weight: 800;
-            padding: 16px 48px;
-            border-radius: 50px;
-            text-decoration: none;
-            letter-spacing: 2px;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4), 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .input-key-btn:hover {
-            background: #33ff99;
-            box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 6px 20px rgba(0, 0, 0, 0.5);
-            transform: scale(1.03);
-        }
-
-        .input-key-btn:active {
-            transform: scale(0.97);
-        }
-
-        /* ============ KHUNG KEY NGÀY ============ */
-        .free-card-wrapper {
-            width: 100%;
-        }
-
-        .free-card {
-            width: 100%;
-            background: #0a0a0a;
-            border: 2px solid #ffaa00;
-            border-radius: 24px;
-            padding: 40px 30px 36px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.15), 0 0 40px rgba(255, 170, 0, 0.05), inset 0 0 20px rgba(255, 170, 0, 0.03);
-        }
-
-        .free-card:hover {
-            border-color: #ffbb22;
-            box-shadow: 0 0 30px rgba(255, 170, 0, 0.25), 0 0 60px rgba(255, 170, 0, 0.1), inset 0 0 30px rgba(255, 170, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .free-card .card-icon {
-            font-size: 3.5rem;
-        }
-
-        .free-card .card-title {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            line-height: 1.2;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .free-card .card-subtitle {
-            font-size: 1rem;
-            color: #9ba1ad;
-        }
-
-        /* Nút Lấy Free - màu vàng cam */
-        .free-btn {
-            display: inline-block;
-            background: #ffaa00;
-            color: #000000;
-            font-size: 1.4rem;
-            font-weight: 800;
-            padding: 16px 48px;
-            border-radius: 50px;
-            text-decoration: none;
-            letter-spacing: 2px;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .free-btn:hover {
-            background: #ffbb22;
-            box-shadow: 0 0 25px rgba(255, 170, 0, 0.6), 0 6px 20px rgba(0, 0, 0, 0.5);
-            transform: scale(1.03);
-        }
-
-        .free-btn:active {
-            transform: scale(0.97);
-        }
-
-        /* ============ 2 KHUNG DƯỚI ============ */
-        .cards-wrapper {
-            display: flex;
-            gap: 30px;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            flex: 1;
-            min-width: 280px;
-            background: #0a0a0a;
-            border: 2px solid #1ea8e0;
-            border-radius: 24px;
-            padding: 50px 30px 40px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 20px rgba(30, 168, 224, 0.15), 0 0 40px rgba(30, 168, 224, 0.05), inset 0 0 20px rgba(30, 168, 224, 0.03);
-        }
-
-        .card:hover {
-            border-color: #3db8e8;
-            box-shadow: 0 0 30px rgba(30, 168, 224, 0.25), 0 0 60px rgba(30, 168, 224, 0.1), inset 0 0 30px rgba(30, 168, 224, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .card .card-icon {
-            font-size: 3.5rem;
-        }
-
-        .card .card-title {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            line-height: 1.2;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .card .card-subtitle {
-            font-size: 1rem;
-            color: #9ba1ad;
-        }
-
-        .buy-btn {
-            display: inline-block;
-            background: #1ea8e0;
-            color: #ffffff;
-            font-size: 1.4rem;
-            font-weight: 800;
-            padding: 16px 48px;
-            border-radius: 50px;
-            text-decoration: none;
-            letter-spacing: 2px;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(30, 168, 224, 0.4), 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .buy-btn:hover {
-            background: #28b4ec;
-            box-shadow: 0 0 25px rgba(30, 168, 224, 0.6), 0 6px 20px rgba(0, 0, 0, 0.5);
-            transform: scale(1.03);
-        }
-
-        .buy-btn:active {
-            transform: scale(0.97);
-        }
-
-        .footer-note {
-            text-align: center;
-            color: #555;
-            font-size: 0.85rem;
-            margin-top: 10px;
-        }
-
-        .footer-note a {
-            color: #1ea8e0;
-            text-decoration: none;
-            font-weight: 600;
-            text-shadow: 0 0 6px rgba(30, 168, 224, 0.3);
-        }
-
-        .footer-note a:hover {
-            color: #3db8e8;
-        }
-
-        @media (max-width: 650px) {
-            .cards-wrapper {
-                flex-direction: column;
-                gap: 24px;
-            }
-            .input-key-card,
-            .free-card {
-                padding: 36px 20px 30px;
-            }
-            .card {
-                padding: 40px 20px 32px;
-            }
-            .input-key-card .card-title,
-            .free-card .card-title,
-            .card .card-title {
-                font-size: 2.2rem;
-            }
-            .input-key-btn,
-            .free-btn,
-            .buy-btn {
-                font-size: 1.2rem;
-                padding: 14px 36px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f0f; color: #fff; }
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 20px 0; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 15px; margin-bottom: 20px; }
+        .header h1 { font-size: 24px; color: #FFD700; }
+        .header p { color: #aaa; margin-top: 5px; }
+        .stats { display: flex; justify-content: space-around; margin: 15px 0; }
+        .stat-item { text-align: center; }
+        .stat-item span { font-size: 20px; font-weight: bold; color: #FFD700; }
+        .card { background: #1a1a2e; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; }
+        .card h2 { color: #FFD700; margin-bottom: 10px; font-size: 18px; }
+        .card .price { font-size: 28px; font-weight: bold; color: #FFD700; }
+        .card .duration { color: #aaa; margin: 5px 0; }
+        .card ul { list-style: none; margin: 10px 0; }
+        .card ul li { padding: 5px 0; color: #ccc; }
+        .card ul li::before { content: "✅ "; color: #00ff00; }
+        .btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; }
+        .btn-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; }
+        .btn-green { background: linear-gradient(135deg, #00cc00, #008800); color: #fff; }
+        .btn-blue { background: linear-gradient(135deg, #0088cc, #004488); color: #fff; }
+        .btn-purple { background: linear-gradient(135deg, #9933ff, #6600cc); color: #fff; }
+        .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; display: inline-block; margin-left: 8px; font-weight: bold; }
+        .badge-free { background: #00cc00; color: #fff; }
+        .badge-vip { background: #FFD700; color: #000; }
+        .badge-hot { background: #ff6600; color: #fff; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #1a1a2e; border-radius: 15px; padding: 25px; width: 90%; max-width: 420px; text-align: center; max-height: 90vh; overflow-y: auto; }
+        .modal-content h3 { color: #FFD700; margin-bottom: 15px; }
+        .modal-content select, .modal-content input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #333; background: #0f0f0f; color: #fff; font-size: 14px; }
+        .modal-content .close { float: right; color: #FFD700; font-size: 24px; cursor: pointer; }
+        .result { margin-top: 15px; padding: 15px; background: #0f0f0f; border-radius: 10px; }
+        .key-display { font-size: 20px; color: #00ff00; font-family: monospace; background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; word-break: break-all; }
+        .copy-btn { background: #FFD700; color: #000; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 16px; width: 100%; }
+        .loading { display: inline-block; width: 30px; height: 30px; border: 3px solid #333; border-top: 3px solid #FFD700; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .info-text { color: #888; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
-
-    <div class="main-container">
-
-        <!-- Header -->
-        <div class="top-header">
-            <div class="shop-name">QANHNO1</div>
-            <div class="bot-name">𝙌𝘼𝙉𝙃𝙑𝙉𝘽𝙊𝙏𝙑𝙄𝙋🇻🇳</div>
-            <div class="divider-line"></div>
-        </div>
-
-        <!-- ===== KHUNG NHẬP KEY (MỚI - TRÊN CÙNG) ===== -->
-        <div class="input-key-wrapper">
-            <div class="input-key-card">
-                <div class="card-icon">🔑</div>
-                <div class="card-title">NHẬP KEY</div>
-                <div class="card-subtitle">Kích hoạt key đã mua để sử dụng bot</div>
-                <!-- ✅ LINK ĐẾN @QanhNo1bot TỰ ĐỘNG /START -->
-                <a href="https://t.me/QanhNo1bot?start=" target="_blank" class="input-key-btn">NHẬP KEY Ở ĐÂY</a>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ QANH BOT SHOP ⚡</h1>
+            <p>Key Uy Tín - Giá Rẻ Nhất</p>
+            <div class="stats">
+                <div class="stat-item"><span>10,000+</span><br>Khách</div>
+                <div class="stat-item"><span>24/7</span><br>Hỗ trợ</div>
+                <div class="stat-item"><span>99.9%</span><br>Uptime</div>
             </div>
         </div>
 
-        <!-- ===== KHUNG KEY NGÀY ===== -->
-        <div class="free-card-wrapper">
-            <div class="free-card">
-                <div class="card-icon">🎁</div>
-                <div class="card-title">KEY NGÀY</div>
-                <div class="card-subtitle">Nhận key miễn phí dùng thử hàng ngày</div>
-                <!-- ✅ LINK ĐẾN @qanh_roszbot TỰ ĐỘNG /START -->
-                <a href="https://t.me/qanh_roszbot?start=" target="_blank" class="free-btn">LẤY FREE Ở ĐÂY</a>
-            </div>
+        <!-- KEY FREE -->
+        <div class="card" style="border-color: #00cc00;">
+            <h2>🆓 KEY FREE <span class="badge badge-free">MIỄN PHÍ</span></h2>
+            <div class="price">0₫</div>
+            <div class="duration">⏰ 1 ngày</div>
+            <ul><li>Dùng thử miễn phí</li><li>Tốc độ tiêu chuẩn</li></ul>
+            <button class="btn btn-green" onclick="getFreeKey()">🎁 NHẬN KEY FREE</button>
+            <p class="info-text">⚠️ Cần vượt link4m để nhận key</p>
         </div>
 
-        <!-- 2 Khung dưới -->
-        <div class="cards-wrapper">
-
-            <!-- Khung 1: KEY THÁNG -->
-            <div class="card">
-                <div class="card-icon">📅</div>
-                <div class="card-title">KEY THÁNG</div>
-                <div class="card-subtitle">Thuê bot theo tháng · Gia hạn linh hoạt</div>
-                <a href="https://t.me/QanhCheater" target="_blank" class="buy-btn">MUA Ở ĐÂY</a>
-            </div>
-
-            <!-- Khung 2: KEY VĨNH VIỄN -->
-            <div class="card">
-                <div class="card-icon">♾️</div>
-                <div class="card-title">KEY VĨNH VIỄN</div>
-                <div class="card-subtitle">Sở hữu trọn đời · Không giới hạn</div>
-                <a href="https://t.me/QanhCheater" target="_blank" class="buy-btn">MUA Ở ĐÂY</a>
-            </div>
-
+        <!-- KEY 1 TUẦN -->
+        <div class="card" style="border-color: #9933ff;">
+            <h2>💎 KEY 1 TUẦN <span class="badge badge-hot">HOT</span></h2>
+            <div class="price">50,000₫</div>
+            <div class="duration">⏰ 7 ngày</div>
+            <ul><li>Không giới hạn link</li><li>Tốc độ cao</li><li>Hỗ trợ VIP</li></ul>
+            <button class="btn btn-purple" onclick="openPayment('week')">💳 MUA NGAY</button>
         </div>
 
-        <!-- Footer -->
-        <div class="footer-note">
-            Liên hệ Telegram: <a href="https://t.me/QanhCheater" target="_blank">@QanhCheater</a>
+        <!-- KEY 1 THÁNG -->
+        <div class="card" style="border-color: #0088cc;">
+            <h2>🔑 KEY 1 THÁNG <span class="badge badge-vip">VIP</span></h2>
+            <div class="price">150,000₫</div>
+            <div class="duration">⏰ 30 ngày</div>
+            <ul><li>Tất cả tính năng VIP</li><li>Hỗ trợ 24/7</li><li>Tốc độ cao nhất</li></ul>
+            <button class="btn btn-blue" onclick="openPayment('month')">💳 MUA NGAY</button>
         </div>
 
+        <!-- KEY VĨNH VIỄN -->
+        <div class="card" style="border-color: #FFD700; background: linear-gradient(135deg, #1a1a2e, #2a1a00);">
+            <h2>👑 KEY VĨNH VIỄN <span class="badge badge-vip">PREMIUM</span></h2>
+            <div class="price">250,000₫</div>
+            <div class="duration">⏰ Không giới hạn</div>
+            <ul><li>Tất cả Premium</li><li>Update trọn đời</li><li>Tặng full tool</li></ul>
+            <button class="btn btn-gold" onclick="openPayment('forever')">💳 MUA NGAY</button>
+        </div>
     </div>
 
+    <!-- MODAL THANH TOÁN -->
+    <div class="modal" id="payModal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('payModal').classList.remove('active')">✕</span>
+            <h3 id="payTitle">💳 THANH TOÁN THẺ CÀO</h3>
+            <div id="cardForm">
+                <select id="cardType"><option value="">Chọn loại thẻ</option><option value="VIETTEL">Viettel</option><option value="MOBIFONE">Mobifone</option><option value="VINAPHONE">Vinaphone</option><option value="GARENA">Garena</option></select>
+                <select id="cardAmount"><option value="">Chọn mệnh giá</option><option value="10000">10,000₫</option><option value="20000">20,000₫</option><option value="50000">50,000₫</option><option value="100000">100,000₫</option><option value="200000">200,000₫</option><option value="500000">500,000₫</option></select>
+                <input type="text" id="cardPin" placeholder="🔢 Nhập mã thẻ...">
+                <input type="text" id="cardSerial" placeholder="📝 Nhập serial...">
+            </div>
+            <button class="btn btn-gold" onclick="submitPayment()" id="payBtn">💳 THANH TOÁN</button>
+            <div id="payLoading" style="display:none;margin-top:15px;"><div class="loading"></div><p>Đang xử lý...</p></div>
+            <div id="payResult" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- MODAL NHẬN KEY -->
+    <div class="modal" id="keyModal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('keyModal').classList.remove('active')">✕</span>
+            <h3 style="color:#00ff00;">✅ NHẬN KEY THÀNH CÔNG!</h3>
+            <p style="color:#aaa;">🔑 Key của bạn:</p>
+            <div class="key-display" id="keyDisplay"></div>
+            <button class="copy-btn" onclick="copyKey()">📋 COPY KEY</button>
+            <p class="info-text" id="keyInfo"></p>
+            <p class="info-text">💡 Dùng lệnh <b>/kichhoat KEY</b> trong Telegram</p>
+        </div>
+    </div>
+
+    <script>
+        const BOT_TOKEN = "8466851320:AAGc77X4DnPQRNkw7rVUhlpJVIcBlOcSlDA";
+        const CHAT_ID = "8588555065";
+        const LINK4M_API_KEY = "65c47d157fbdff4d79625e57";
+        const SHOP_URL = window.location.href.split('?')[0];
+        const PARTNER_ID = "70406595609";
+        const PARTNER_KEY = "add9c7d61cb54ff1b447e2188c71a8c2";
+        
+        let currentPackage = '';
+
+        // Tạo link4m duy nhất cho mỗi người dùng
+        async function createLink4M() {
+            const uid = Date.now().toString(36) + Math.random().toString(36).substr(2, 8);
+            const returnUrl = SHOP_URL + '?getkey=' + uid;
+            
+            try {
+                const apiUrl = `https://link4m.net/api?api=${LINK4M_API_KEY}&url=${encodeURIComponent(returnUrl)}&format=text`;
+                const response = await fetch(apiUrl);
+                const shortUrl = await response.text();
+                return shortUrl.trim();
+            } catch(e) {
+                return `https://link4m.net/st/qanhfree?r=${uid}`;
+            }
+        }
+
+        // KEY FREE - vượt link4m trước, tạo key sau
+        async function getFreeKey() {
+            const btn = document.querySelector('.btn-green');
+            btn.innerText = '⏳ ĐANG TẠO LINK...';
+            btn.disabled = true;
+            
+            const link4m = await createLink4M();
+            window.location.href = link4m;
+        }
+
+        // Khi quay lại từ link4m → tạo key và hiện
+        window.onload = async function() {
+            const params = new URLSearchParams(window.location.search);
+            const getkey = params.get('getkey');
+            
+            if (getkey) {
+                // Xóa param khỏi URL
+                window.history.replaceState({}, document.title, SHOP_URL);
+                
+                // Hiện loading
+                document.getElementById('keyModal').classList.add('active');
+                document.getElementById('keyDisplay').innerHTML = '<div class="loading"></div><p>Đang tạo key...</p>';
+                
+                // Tạo key mới (lúc này mới bắt đầu tính thời gian)
+                const key = await generateFreeKeyFromBot();
+                const duration = '1 NGÀY (Free) - Vừa tạo xong!';
+                
+                document.getElementById('keyDisplay').innerText = key;
+                document.getElementById('keyInfo').innerHTML = `⏰ ${duration}`;
+            }
+        };
+
+        async function generateFreeKeyFromBot() {
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: '/taokey free 1ngay' })
+                });
+                return await getLastKeyFromBot();
+            } catch(e) {
+                return generateRandomKey();
+            }
+        }
+
+        function openPayment(pkg) {
+            currentPackage = pkg;
+            const titles = { week: '💎 KEY 1 TUẦN - 50,000₫', month: '🔑 KEY 1 THÁNG - 150,000₫', forever: '👑 KEY VĨNH VIỄN - 250,000₫' };
+            document.getElementById('payTitle').innerText = titles[pkg];
+            document.getElementById('payModal').classList.add('active');
+            document.getElementById('payResult').style.display = 'none';
+            document.getElementById('payLoading').style.display = 'none';
+            document.getElementById('payBtn').style.display = 'block';
+            document.getElementById('cardForm').style.display = 'block';
+        }
+
+        async function submitPayment() {
+            const ct = document.getElementById('cardType').value;
+            const ca = document.getElementById('cardAmount').value;
+            const cp = document.getElementById('cardPin').value;
+            const cs = document.getElementById('cardSerial').value;
+            
+            if (!ct || !ca || !cp || !cs) { alert('⚠️ Vui lòng điền đầy đủ!'); return; }
+            
+            document.getElementById('payBtn').style.display = 'none';
+            document.getElementById('payLoading').style.display = 'block';
+            document.getElementById('payResult').style.display = 'none';
+            
+            try {
+                const res = await fetch('https://api.shoppay.vn/card/charge', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ partner_id: PARTNER_ID, partner_key: PARTNER_KEY, telco: ct, amount: parseInt(ca), pin: cp, serial: cs })
+                });
+                const data = await res.json();
+                
+                if (data.status === 1) {
+                    let kt = currentPackage === 'week' ? 'vip 1thang' : currentPackage === 'month' ? 'vip 1thang' : 'vip vinhvien';
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: CHAT_ID, text: `/taokey ${kt}` })
+                    });
+                    
+                    const key = await getLastKeyFromBot();
+                    const durations = { week: '7 NGÀY (VIP)', month: '30 NGÀY (VIP)', forever: 'VĨNH VIỄN (VIP)' };
+                    document.getElementById('payModal').classList.remove('active');
+                    document.getElementById('keyDisplay').innerText = key;
+                    document.getElementById('keyInfo').innerHTML = `⏰ ${durations[currentPackage]}`;
+                    document.getElementById('keyModal').classList.add('active');
+                } else {
+                    throw new Error(data.message || 'Thẻ không hợp lệ!');
+                }
+            } catch(e) {
+                document.getElementById('payResult').innerHTML = `<p style="color:#ff4444;">❌ ${e.message}</p>`;
+                document.getElementById('payResult').style.display = 'block';
+            } finally {
+                document.getElementById('payLoading').style.display = 'none';
+                document.getElementById('payBtn').style.display = 'block';
+            }
+        }
+
+        function copyKey() {
+            navigator.clipboard.writeText(document.getElementById('keyDisplay').innerText);
+            const btn = document.querySelector('.copy-btn');
+            btn.innerText = '✅ ĐÃ COPY!'; btn.style.background = '#00ff00';
+            setTimeout(() => { btn.innerText = '📋 COPY KEY'; btn.style.background = '#FFD700'; }, 2000);
+        }
+
+        async function getLastKeyFromBot() {
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?limit=5`);
+                const data = await res.json();
+                if (data.ok && data.result.length > 0) {
+                    for (let i = data.result.length - 1; i >= 0; i--) {
+                        const msg = data.result[i].message;
+                        if (msg && msg.text && msg.text.includes('QANH-')) {
+                            const m = msg.text.match(/QANH-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+/);
+                            if (m) return m[0];
+                        }
+                    }
+                }
+            } catch(e) {}
+            return generateRandomKey();
+        }
+
+        function generateRandomKey() {
+            const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const r = (l) => Array.from({length: l}, () => c[Math.floor(Math.random() * c.length)]).join('');
+            return `QANH-${r(10)}-${r(10)}-${r(10)}-${r(5)}`;
+        }
+    </script>
 </body>
 </html>
