@@ -5,258 +5,415 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QANH BOT SHOP - Key Uy Tín - Giá Rẻ</title>
     <style>
+        :root {
+            --gold: #FFD700;
+            --green: #00ff00;
+            --red: #ff4444;
+            --blue: #0088ff;
+            --purple: #9933ff;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f0f; color: #fff; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            color: #fff; 
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=1920&q=80') center/cover fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -1; }
+        
+        /* NAVBAR */
+        .navbar { background: rgba(26,26,46,0.95); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--gold); backdrop-filter: blur(10px); }
+        .navbar .logo { font-size: 20px; font-weight: bold; color: var(--gold); }
+        .navbar .user-info { display: flex; align-items: center; gap: 10px; }
+        .navbar .balance { background: rgba(0,0,0,0.5); border: 1px solid var(--gold); border-radius: 20px; padding: 8px 15px; color: var(--gold); font-weight: bold; cursor: pointer; }
+        .navbar .user-btn { background: var(--gold); color: #000; border: none; border-radius: 20px; padding: 8px 15px; font-weight: bold; cursor: pointer; }
+        
         .container { max-width: 500px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; padding: 20px 0; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 15px; margin-bottom: 20px; }
-        .header h1 { font-size: 24px; color: #FFD700; }
-        .header p { color: #aaa; margin-top: 5px; }
-        .stats { display: flex; justify-content: space-around; margin: 15px 0; }
-        .stat-item { text-align: center; }
-        .stat-item span { font-size: 20px; font-weight: bold; color: #FFD700; }
-        .card { background: #1a1a2e; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; }
-        .card h2 { color: #FFD700; margin-bottom: 10px; font-size: 18px; }
-        .card .price { font-size: 28px; font-weight: bold; color: #FFD700; }
+        
+        /* CARDS */
+        .card { background: rgba(26,26,46,0.9); border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: transform 0.2s; }
+        .card:hover { transform: scale(1.01); }
+        .card h2 { color: var(--gold); margin-bottom: 5px; font-size: 18px; }
+        .card .price { font-size: 32px; font-weight: bold; color: var(--gold); }
         .card .duration { color: #aaa; margin: 5px 0; }
         .card ul { list-style: none; margin: 10px 0; }
-        .card ul li { padding: 5px 0; color: #ccc; }
-        .card ul li::before { content: "✅ "; color: #00ff00; }
-        .btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; }
+        .card ul li { padding: 4px 0; color: #ccc; font-size: 14px; }
+        .card ul li::before { content: "✅ "; color: var(--green); }
+        .btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 10px; transition: 0.3s; }
+        .btn:hover { opacity: 0.9; transform: scale(1.02); }
         .btn-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; }
         .btn-green { background: linear-gradient(135deg, #00cc00, #008800); color: #fff; }
         .btn-blue { background: linear-gradient(135deg, #0088cc, #004488); color: #fff; }
         .btn-purple { background: linear-gradient(135deg, #9933ff, #6600cc); color: #fff; }
-        .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; display: inline-block; margin-left: 8px; font-weight: bold; }
+        .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
+        
+        .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
         .badge-free { background: #00cc00; color: #fff; }
-        .badge-vip { background: #FFD700; color: #000; }
+        .badge-vip { background: var(--gold); color: #000; }
         .badge-hot { background: #ff6600; color: #fff; animation: pulse 1s infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        /* TABS */
+        .tabs { display: flex; margin-bottom: 15px; border-radius: 10px; overflow: hidden; }
+        .tab { flex: 1; text-align: center; padding: 12px; background: rgba(26,26,46,0.9); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-weight: bold; color: #aaa; transition: 0.3s; }
+        .tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+        
+        /* MODAL */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
-        .modal-content { background: #1a1a2e; border-radius: 15px; padding: 25px; width: 90%; max-width: 420px; text-align: center; max-height: 90vh; overflow-y: auto; }
-        .modal-content h3 { color: #FFD700; margin-bottom: 15px; }
-        .modal-content select, .modal-content input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #333; background: #0f0f0f; color: #fff; font-size: 14px; }
-        .modal-content .close { float: right; color: #FFD700; font-size: 24px; cursor: pointer; }
-        .result { margin-top: 15px; padding: 15px; background: #0f0f0f; border-radius: 10px; }
-        .key-display { font-size: 20px; color: #00ff00; font-family: monospace; background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; word-break: break-all; }
-        .copy-btn { background: #FFD700; color: #000; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 16px; width: 100%; }
-        .loading { display: inline-block; width: 30px; height: 30px; border: 3px solid #333; border-top: 3px solid #FFD700; border-radius: 50%; animation: spin 1s linear infinite; }
+        .modal-content { background: rgba(26,26,46,0.98); border-radius: 15px; padding: 25px; width: 90%; max-width: 420px; text-align: center; max-height: 85vh; overflow-y: auto; border: 1px solid var(--gold); backdrop-filter: blur(10px); }
+        .modal-content h3 { color: var(--gold); margin-bottom: 15px; }
+        .modal-content input, .modal-content select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #333; background: #0f0f0f; color: #fff; font-size: 14px; }
+        .modal-content .close { float: right; color: var(--gold); font-size: 24px; cursor: pointer; }
+        
+        .key-display { font-size: 16px; color: var(--green); font-family: monospace; background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; word-break: break-all; border: 1px dashed var(--green); }
+        .copy-btn { background: var(--gold); color: #000; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 16px; width: 100%; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: var(--gold); color: #000; padding: 10px; }
+        td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        
+        .loading { display: inline-block; width: 30px; height: 30px; border: 3px solid #333; border-top: 3px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .info-text { color: #888; font-size: 12px; margin-top: 10px; }
+        .alert { background: rgba(255,0,0,0.1); border: 1px solid var(--red); border-radius: 10px; padding: 15px; margin: 10px 0; color: var(--red); }
+        
+        /* MUSIC CONTROLS */
+        .music-control { position: fixed; bottom: 20px; right: 20px; z-index: 200; background: rgba(0,0,0,0.7); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--gold); font-size: 20px; }
     </style>
 </head>
 <body>
+    <!-- BACKGROUND MUSIC -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+    <div class="music-control" onclick="toggleMusic()" id="musicBtn">🎵</div>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">⚡ QANH SHOP</div>
+        <div class="user-info" id="userInfo">
+            <div class="balance" onclick="showRecharge()">💰 <span id="balanceDisplay">0</span>₫</div>
+            <button class="user-btn" onclick="handleAuth()" id="authBtn">🔑 ĐĂNG NHẬP</button>
+            <button class="user-btn" id="adminBtn" style="display:none;background:var(--purple);color:#fff;" onclick="showAdmin()">⚙️ ADMIN</button>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <h1>⚡ QANH BOT SHOP ⚡</h1>
-            <p>Key Uy Tín - Giá Rẻ Nhất</p>
-            <div class="stats">
-                <div class="stat-item"><span>10,000+</span><br>Khách</div>
-                <div class="stat-item"><span>24/7</span><br>Hỗ trợ</div>
-                <div class="stat-item"><span>99.9%</span><br>Uptime</div>
+        <!-- TABS -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('shop')">🛒 SHOP KEY</div>
+            <div class="tab" onclick="switchTab('history')">📋 LỊCH SỬ</div>
+        </div>
+
+        <!-- SHOP TAB -->
+        <div id="shopTab">
+            <div class="card" style="border-color: #00cc00;">
+                <h2>🆓 KEY FREE <span class="badge badge-free">MIỄN PHÍ</span></h2>
+                <div class="price">0₫</div>
+                <div class="duration">⏰ 1 ngày</div>
+                <ul><li>Dùng thử miễn phí</li></ul>
+                <button class="btn btn-green" onclick="getFreeKey()">🎁 NHẬN KEY FREE</button>
+                <p class="info-text">⚠️ Cần vượt link4m, hệ thống kiểm tra view trước khi cấp key</p>
+            </div>
+
+            <div class="card" style="border-color: #9933ff;">
+                <h2>💎 KEY 1 TUẦN <span class="badge badge-hot">HOT</span></h2>
+                <div class="price">50,000₫</div>
+                <div class="duration">⏰ 7 ngày</div>
+                <ul><li>Không giới hạn link</li><li>Tốc độ cao</li></ul>
+                <button class="btn btn-purple" onclick="buyKey('week')">💳 MUA NGAY</button>
+            </div>
+
+            <div class="card" style="border-color: #0088cc;">
+                <h2>🔑 KEY 1 THÁNG <span class="badge badge-vip">VIP</span></h2>
+                <div class="price">150,000₫</div>
+                <div class="duration">⏰ 30 ngày</div>
+                <ul><li>Tất cả tính năng VIP</li><li>Hỗ trợ 24/7</li></ul>
+                <button class="btn btn-blue" onclick="buyKey('month')">💳 MUA NGAY</button>
+            </div>
+
+            <div class="card" style="border-color: #FFD700;">
+                <h2>👑 KEY VĨNH VIỄN <span class="badge badge-vip">PREMIUM</span></h2>
+                <div class="price">250,000₫</div>
+                <div class="duration">⏰ Không giới hạn</div>
+                <ul><li>Tất cả Premium</li><li>Update trọn đời</li></ul>
+                <button class="btn btn-gold" onclick="buyKey('forever')">💳 MUA NGAY</button>
             </div>
         </div>
 
-        <!-- KEY FREE -->
-        <div class="card" style="border-color: #00cc00;">
-            <h2>🆓 KEY FREE <span class="badge badge-free">MIỄN PHÍ</span></h2>
-            <div class="price">0₫</div>
-            <div class="duration">⏰ 1 ngày</div>
-            <ul><li>Dùng thử miễn phí</li><li>Tốc độ tiêu chuẩn</li></ul>
-            <button class="btn btn-green" onclick="getFreeKey()">🎁 NHẬN KEY FREE</button>
-            <p class="info-text">⚠️ Cần vượt link4m để nhận key</p>
-        </div>
-
-        <!-- KEY 1 TUẦN -->
-        <div class="card" style="border-color: #9933ff;">
-            <h2>💎 KEY 1 TUẦN <span class="badge badge-hot">HOT</span></h2>
-            <div class="price">50,000₫</div>
-            <div class="duration">⏰ 7 ngày</div>
-            <ul><li>Không giới hạn link</li><li>Tốc độ cao</li><li>Hỗ trợ VIP</li></ul>
-            <button class="btn btn-purple" onclick="openPayment('week')">💳 MUA NGAY</button>
-        </div>
-
-        <!-- KEY 1 THÁNG -->
-        <div class="card" style="border-color: #0088cc;">
-            <h2>🔑 KEY 1 THÁNG <span class="badge badge-vip">VIP</span></h2>
-            <div class="price">150,000₫</div>
-            <div class="duration">⏰ 30 ngày</div>
-            <ul><li>Tất cả tính năng VIP</li><li>Hỗ trợ 24/7</li><li>Tốc độ cao nhất</li></ul>
-            <button class="btn btn-blue" onclick="openPayment('month')">💳 MUA NGAY</button>
-        </div>
-
-        <!-- KEY VĨNH VIỄN -->
-        <div class="card" style="border-color: #FFD700; background: linear-gradient(135deg, #1a1a2e, #2a1a00);">
-            <h2>👑 KEY VĨNH VIỄN <span class="badge badge-vip">PREMIUM</span></h2>
-            <div class="price">250,000₫</div>
-            <div class="duration">⏰ Không giới hạn</div>
-            <ul><li>Tất cả Premium</li><li>Update trọn đời</li><li>Tặng full tool</li></ul>
-            <button class="btn btn-gold" onclick="openPayment('forever')">💳 MUA NGAY</button>
+        <!-- HISTORY TAB -->
+        <div id="historyTab" style="display:none;">
+            <div class="card"><h2>📋 LỊCH SỬ KEY</h2><table><thead><tr><th>Key</th><th>Loại</th><th>Hạn</th></tr></thead><tbody id="keyHistory"><tr><td colspan="3">Chưa có giao dịch</td></tr></tbody></table></div>
+            <div class="card"><h2>💳 LỊCH SỬ NẠP</h2><table><thead><tr><th>Loại</th><th>Mệnh giá</th><th>TT</th></tr></thead><tbody id="rechargeHistory"><tr><td colspan="3">Chưa có giao dịch</td></tr></tbody></table></div>
         </div>
     </div>
 
-    <!-- MODAL THANH TOÁN -->
-    <div class="modal" id="payModal">
-        <div class="modal-content">
-            <span class="close" onclick="document.getElementById('payModal').classList.remove('active')">✕</span>
-            <h3 id="payTitle">💳 THANH TOÁN THẺ CÀO</h3>
-            <div id="cardForm">
-                <select id="cardType"><option value="">Chọn loại thẻ</option><option value="VIETTEL">Viettel</option><option value="MOBIFONE">Mobifone</option><option value="VINAPHONE">Vinaphone</option><option value="GARENA">Garena</option></select>
-                <select id="cardAmount"><option value="">Chọn mệnh giá</option><option value="10000">10,000₫</option><option value="20000">20,000₫</option><option value="50000">50,000₫</option><option value="100000">100,000₫</option><option value="200000">200,000₫</option><option value="500000">500,000₫</option></select>
-                <input type="text" id="cardPin" placeholder="🔢 Nhập mã thẻ...">
-                <input type="text" id="cardSerial" placeholder="📝 Nhập serial...">
-            </div>
-            <button class="btn btn-gold" onclick="submitPayment()" id="payBtn">💳 THANH TOÁN</button>
-            <div id="payLoading" style="display:none;margin-top:15px;"><div class="loading"></div><p>Đang xử lý...</p></div>
-            <div id="payResult" class="result" style="display:none;"></div>
-        </div>
-    </div>
+    <!-- MODALS -->
+    <div class="modal" id="authModal"><div class="modal-content">
+        <span class="close" onclick="document.getElementById('authModal').classList.remove('active')">✕</span>
+        <h3 id="authTitle">🔑 ĐĂNG NHẬP</h3>
+        <input type="text" id="authEmail" placeholder="📧 Email hoặc Username">
+        <input type="password" id="authPassword" placeholder="🔒 Mật khẩu">
+        <button class="btn btn-gold" onclick="doAuth()">ĐĂNG NHẬP / ĐĂNG KÝ</button>
+    </div></div>
 
-    <!-- MODAL NHẬN KEY -->
-    <div class="modal" id="keyModal">
-        <div class="modal-content">
-            <span class="close" onclick="document.getElementById('keyModal').classList.remove('active')">✕</span>
-            <h3 style="color:#00ff00;">✅ NHẬN KEY THÀNH CÔNG!</h3>
-            <p style="color:#aaa;">🔑 Key của bạn:</p>
-            <div class="key-display" id="keyDisplay"></div>
-            <button class="copy-btn" onclick="copyKey()">📋 COPY KEY</button>
-            <p class="info-text" id="keyInfo"></p>
-            <p class="info-text">💡 Dùng lệnh <b>/kichhoat KEY</b> trong Telegram</p>
-        </div>
-    </div>
+    <div class="modal" id="rechargeModal"><div class="modal-content">
+        <span class="close" onclick="document.getElementById('rechargeModal').classList.remove('active')">✕</span>
+        <h3>💳 NẠP TIỀN</h3>
+        <select id="rcType"><option value="">Loại thẻ</option><option value="VIETTEL">Viettel</option><option value="MOBIFONE">Mobifone</option><option value="VINAPHONE">Vinaphone</option><option value="GARENA">Garena</option></select>
+        <select id="rcAmount"><option value="">Mệnh giá</option><option value="10000">10k</option><option value="20000">20k</option><option value="50000">50k</option><option value="100000">100k</option><option value="200000">200k</option><option value="500000">500k</option></select>
+        <input type="text" id="rcPin" placeholder="Mã thẻ"><input type="text" id="rcSerial" placeholder="Serial">
+        <button class="btn btn-gold" onclick="recharge()">NẠP</button>
+        <div id="rcResult" style="margin-top:10px;"></div>
+    </div></div>
+
+    <div class="modal" id="confirmBuyModal"><div class="modal-content">
+        <span class="close" onclick="document.getElementById('confirmBuyModal').classList.remove('active')">✕</span>
+        <h3>⚠️ XÁC NHẬN MUA</h3>
+        <div class="alert"><p>Mua <b id="confirmKeyType"></b> - <b id="confirmKeyPrice"></b></p><p>Số dư: <b id="confirmBalance"></b></p><p style="color:#ff4444;">⚠️ Cân nhắc trước khi mua!</p></div>
+        <button class="btn btn-gold" onclick="confirmBuy()">✅ XÁC NHẬN</button>
+        <button class="btn btn-outline" onclick="document.getElementById('confirmBuyModal').classList.remove('active')">❌ HỦY</button>
+    </div></div>
+
+    <div class="modal" id="keyModal"><div class="modal-content">
+        <span class="close" onclick="document.getElementById('keyModal').classList.remove('active')">✕</span>
+        <h3 style="color:#0f0;">✅ THÀNH CÔNG!</h3>
+        <div class="key-display" id="keyDisplay"></div>
+        <button class="copy-btn" onclick="copyKey()">📋 COPY KEY</button>
+        <p class="info-text" id="keyInfo"></p>
+    </div></div>
+
+    <!-- ADMIN MODAL -->
+    <div class="modal" id="adminModal"><div class="modal-content">
+        <span class="close" onclick="document.getElementById('adminModal').classList.remove('active')">✕</span>
+        <h3>⚙️ ADMIN CONTROL</h3>
+        <p style="color:#aaa;">Số dư hiện tại: <b id="adminBalance" style="color:var(--gold);"></b></p>
+        <input type="number" id="adminSetBalance" placeholder="Nhập số dư mới...">
+        <button class="btn btn-gold" onclick="adminSetBalance()">💾 CẬP NHẬT SỐ DƯ</button>
+        <hr style="border-color:#333;margin:15px 0;">
+        <p style="color:#aaa;">Tổng user: <b id="totalUsers" style="color:var(--gold);">0</b></p>
+        <p style="color:#aaa;">Key đã tạo: <b id="totalKeys" style="color:var(--gold);">0</b></p>
+    </div></div>
 
     <script>
+        // CONFIG
         const BOT_TOKEN = "8466851320:AAGc77X4DnPQRNkw7rVUhlpJVIcBlOcSlDA";
         const CHAT_ID = "8588555065";
         const LINK4M_API_KEY = "65c47d157fbdff4d79625e57";
-        const SHOP_URL = window.location.href.split('?')[0];
         const PARTNER_ID = "70406595609";
         const PARTNER_KEY = "add9c7d61cb54ff1b447e2188c71a8c2";
-        
-        let currentPackage = '';
+        const SHOP_URL = window.location.href.split('?')[0];
+        const ADMIN_EMAIL = "admin@qanhshop.com";
+        const ADMIN_PASS = "QanhAdmin@2025#Secret!";
 
-        // Tạo link4m duy nhất cho mỗi người dùng
-        async function createLink4M() {
-            const uid = Date.now().toString(36) + Math.random().toString(36).substr(2, 8);
-            const returnUrl = SHOP_URL + '?getkey=' + uid;
-            
-            try {
-                const apiUrl = `https://link4m.net/api?api=${LINK4M_API_KEY}&url=${encodeURIComponent(returnUrl)}&format=text`;
-                const response = await fetch(apiUrl);
-                const shortUrl = await response.text();
-                return shortUrl.trim();
-            } catch(e) {
-                return `https://link4m.net/st/qanhfree?r=${uid}`;
+        let currentUser = JSON.parse(localStorage.getItem('qanh_user')) || null;
+        let userKeys = JSON.parse(localStorage.getItem('qanh_keys')) || [];
+        let userRecharges = JSON.parse(localStorage.getItem('qanh_recharges')) || [];
+        let pendingBuy = null;
+        let musicPlaying = false;
+
+        // MUSIC
+        function toggleMusic() {
+            const m = document.getElementById('bgMusic');
+            if (musicPlaying) { m.pause(); document.getElementById('musicBtn').innerText = '🔇'; }
+            else { m.play(); document.getElementById('musicBtn').innerText = '🎵'; }
+            musicPlaying = !musicPlaying;
+        }
+        document.addEventListener('click', () => { if (!musicPlaying) { document.getElementById('bgMusic').play(); musicPlaying = true; } }, { once: true });
+
+        // INIT
+        function init() {
+            if (currentUser) {
+                document.getElementById('authBtn').innerText = '👤 ' + currentUser.name;
+                document.getElementById('balanceDisplay').innerText = currentUser.balance.toLocaleString();
+                if (currentUser.isAdmin) document.getElementById('adminBtn').style.display = 'inline-block';
             }
-        }
-
-        // KEY FREE - vượt link4m trước, tạo key sau
-        async function getFreeKey() {
-            const btn = document.querySelector('.btn-green');
-            btn.innerText = '⏳ ĐANG TẠO LINK...';
-            btn.disabled = true;
-            
-            const link4m = await createLink4M();
-            window.location.href = link4m;
-        }
-
-        // Khi quay lại từ link4m → tạo key và hiện
-        window.onload = async function() {
             const params = new URLSearchParams(window.location.search);
-            const getkey = params.get('getkey');
-            
-            if (getkey) {
-                // Xóa param khỏi URL
+            if (params.get('getkey') && currentUser) {
                 window.history.replaceState({}, document.title, SHOP_URL);
-                
-                // Hiện loading
-                document.getElementById('keyModal').classList.add('active');
-                document.getElementById('keyDisplay').innerHTML = '<div class="loading"></div><p>Đang tạo key...</p>';
-                
-                // Tạo key mới (lúc này mới bắt đầu tính thời gian)
-                const key = await generateFreeKeyFromBot();
-                const duration = '1 NGÀY (Free) - Vừa tạo xong!';
-                
-                document.getElementById('keyDisplay').innerText = key;
-                document.getElementById('keyInfo').innerHTML = `⏰ ${duration}`;
+                checkLink4MView(params.get('getkey'));
             }
-        };
-
-        async function generateFreeKeyFromBot() {
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: '/taokey free 1ngay' })
-                });
-                return await getLastKeyFromBot();
-            } catch(e) {
-                return generateRandomKey();
-            }
+            updateHistory();
         }
 
-        function openPayment(pkg) {
-            currentPackage = pkg;
-            const titles = { week: '💎 KEY 1 TUẦN - 50,000₫', month: '🔑 KEY 1 THÁNG - 150,000₫', forever: '👑 KEY VĨNH VIỄN - 250,000₫' };
-            document.getElementById('payTitle').innerText = titles[pkg];
-            document.getElementById('payModal').classList.add('active');
-            document.getElementById('payResult').style.display = 'none';
-            document.getElementById('payLoading').style.display = 'none';
-            document.getElementById('payBtn').style.display = 'block';
-            document.getElementById('cardForm').style.display = 'block';
+        // AUTH
+        function handleAuth() {
+            if (currentUser) { if (confirm('Đăng xuất?')) { currentUser = null; localStorage.removeItem('qanh_user'); location.reload(); } return; }
+            document.getElementById('authModal').classList.add('active');
         }
 
-        async function submitPayment() {
-            const ct = document.getElementById('cardType').value;
-            const ca = document.getElementById('cardAmount').value;
-            const cp = document.getElementById('cardPin').value;
-            const cs = document.getElementById('cardSerial').value;
+        function doAuth() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value.trim();
+            if (!email || !pass) { alert('Điền đầy đủ!'); return; }
             
-            if (!ct || !ca || !cp || !cs) { alert('⚠️ Vui lòng điền đầy đủ!'); return; }
-            
-            document.getElementById('payBtn').style.display = 'none';
-            document.getElementById('payLoading').style.display = 'block';
-            document.getElementById('payResult').style.display = 'none';
+            if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+                currentUser = { name: 'Admin', email: ADMIN_EMAIL, balance: 0, isAdmin: true, registeredAt: new Date().toISOString() };
+                localStorage.setItem('qanh_user', JSON.stringify(currentUser));
+                alert('✅ Chào mừng Admin!');
+            } else {
+                const saved = JSON.parse(localStorage.getItem('qanh_user'));
+                if (saved && saved.email === email) { currentUser = saved; alert('✅ Đăng nhập thành công!'); }
+                else { currentUser = { name: email.split('@')[0], email, balance: 0, isAdmin: false, registeredAt: new Date().toISOString() }; localStorage.setItem('qanh_user', JSON.stringify(currentUser)); alert('✅ Đăng ký thành công!'); }
+            }
+            document.getElementById('authModal').classList.remove('active');
+            init();
+        }
+
+        // ADMIN
+        function showAdmin() {
+            if (!currentUser || !currentUser.isAdmin) return;
+            document.getElementById('adminBalance').innerText = currentUser.balance.toLocaleString() + '₫';
+            document.getElementById('adminModal').classList.add('active');
+        }
+
+        function adminSetBalance() {
+            const val = parseInt(document.getElementById('adminSetBalance').value);
+            if (!val || val < 0) { alert('Nhập số hợp lệ!'); return; }
+            currentUser.balance = val;
+            localStorage.setItem('qanh_user', JSON.stringify(currentUser));
+            document.getElementById('balanceDisplay').innerText = val.toLocaleString();
+            document.getElementById('adminBalance').innerText = val.toLocaleString() + '₫';
+            alert('✅ Đã cập nhật số dư!');
+        }
+
+        // NẠP TIỀN
+        function showRecharge() {
+            if (!currentUser) { alert('⚠️ Đăng nhập trước!'); return; }
+            document.getElementById('rechargeModal').classList.add('active');
+        }
+
+        async function recharge() {
+            if (!currentUser) return;
+            const type = document.getElementById('rcType').value;
+            const amount = parseInt(document.getElementById('rcAmount').value);
+            const pin = document.getElementById('rcPin').value.trim();
+            const serial = document.getElementById('rcSerial').value.trim();
+            if (!type || !amount || !pin || !serial) { alert('Điền đầy đủ!'); return; }
             
             try {
                 const res = await fetch('https://api.shoppay.vn/card/charge', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ partner_id: PARTNER_ID, partner_key: PARTNER_KEY, telco: ct, amount: parseInt(ca), pin: cp, serial: cs })
+                    body: JSON.stringify({ partner_id: PARTNER_ID, partner_key: PARTNER_KEY, telco: type, amount, pin, serial })
                 });
                 const data = await res.json();
-                
                 if (data.status === 1) {
-                    let kt = currentPackage === 'week' ? 'vip 1thang' : currentPackage === 'month' ? 'vip 1thang' : 'vip vinhvien';
-                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: CHAT_ID, text: `/taokey ${kt}` })
-                    });
-                    
-                    const key = await getLastKeyFromBot();
-                    const durations = { week: '7 NGÀY (VIP)', month: '30 NGÀY (VIP)', forever: 'VĨNH VIỄN (VIP)' };
-                    document.getElementById('payModal').classList.remove('active');
-                    document.getElementById('keyDisplay').innerText = key;
-                    document.getElementById('keyInfo').innerHTML = `⏰ ${durations[currentPackage]}`;
-                    document.getElementById('keyModal').classList.add('active');
+                    currentUser.balance += amount;
+                    localStorage.setItem('qanh_user', JSON.stringify(currentUser));
+                    userRecharges.unshift({ type, amount, time: new Date().toISOString(), status: '✅ OK' });
+                    localStorage.setItem('qanh_recharges', JSON.stringify(userRecharges));
+                    document.getElementById('balanceDisplay').innerText = currentUser.balance.toLocaleString();
+                    document.getElementById('rcResult').innerHTML = '<p style="color:#0f0;">✅ +' + amount.toLocaleString() + '₫!</p>';
                 } else {
-                    throw new Error(data.message || 'Thẻ không hợp lệ!');
+                    userRecharges.unshift({ type, amount, time: new Date().toISOString(), status: '❌ ' + (data.message || 'Lỗi') });
+                    localStorage.setItem('qanh_recharges', JSON.stringify(userRecharges));
+                    document.getElementById('rcResult').innerHTML = '<p style="color:#f44;">❌ ' + (data.message || 'Thẻ lỗi') + '</p>';
                 }
-            } catch(e) {
-                document.getElementById('payResult').innerHTML = `<p style="color:#ff4444;">❌ ${e.message}</p>`;
-                document.getElementById('payResult').style.display = 'block';
-            } finally {
-                document.getElementById('payLoading').style.display = 'none';
-                document.getElementById('payBtn').style.display = 'block';
-            }
+            } catch(e) { document.getElementById('rcResult').innerHTML = '<p style="color:#f44;">❌ Lỗi kết nối</p>'; }
+            updateHistory();
         }
 
-        function copyKey() {
-            navigator.clipboard.writeText(document.getElementById('keyDisplay').innerText);
-            const btn = document.querySelector('.copy-btn');
-            btn.innerText = '✅ ĐÃ COPY!'; btn.style.background = '#00ff00';
-            setTimeout(() => { btn.innerText = '📋 COPY KEY'; btn.style.background = '#FFD700'; }, 2000);
+        // MUA KEY
+        const keyPrices = { week: 50000, month: 150000, forever: 250000 };
+        const keyNames = { week: 'KEY 1 TUẦN', month: 'KEY 1 THÁNG', forever: 'KEY VĨNH VIỄN' };
+        const keyDurations = { week: '7 NGÀY', month: '30 NGÀY', forever: 'VĨNH VIỄN' };
+        const keyTypes = { week: 'vip 1thang', month: 'vip 1thang', forever: 'vip vinhvien' };
+
+        function buyKey(type) {
+            if (!currentUser) { alert('⚠️ Đăng nhập!'); return; }
+            if (currentUser.balance < keyPrices[type]) { alert('❌ Không đủ! Cần ' + keyPrices[type].toLocaleString() + '₫'); return; }
+            pendingBuy = type;
+            document.getElementById('confirmKeyType').innerText = keyNames[type];
+            document.getElementById('confirmKeyPrice').innerText = keyPrices[type].toLocaleString() + '₫';
+            document.getElementById('confirmBalance').innerText = currentUser.balance.toLocaleString() + '₫';
+            document.getElementById('confirmBuyModal').classList.add('active');
+        }
+
+        async function confirmBuy() {
+            if (!pendingBuy) return;
+            const type = pendingBuy;
+            currentUser.balance -= keyPrices[type];
+            localStorage.setItem('qanh_user', JSON.stringify(currentUser));
+            document.getElementById('balanceDisplay').innerText = currentUser.balance.toLocaleString();
+            document.getElementById('confirmBuyModal').classList.remove('active');
+            await generateKey(type, keyDurations[type]);
+            pendingBuy = null;
+        }
+
+        // KEY FREE + KIỂM TRA LINK4M VIEW
+        async function getFreeKey() {
+            if (!currentUser) { alert('⚠️ Đăng nhập!'); return; }
+            const uid = 'qanh' + Date.now().toString(36);
+            const returnUrl = SHOP_URL + '?getkey=' + uid;
+            try {
+                const apiUrl = `https://link4m.net/api?api=${LINK4M_API_KEY}&url=${encodeURIComponent(returnUrl)}`;
+                const res = await fetch(apiUrl);
+                const shortUrl = await res.text();
+                if (shortUrl && shortUrl.startsWith('http')) {
+                    localStorage.setItem('qanh_pending_free', JSON.stringify({ uid, time: Date.now() }));
+                    window.location.href = shortUrl.trim();
+                } else { alert('⚠️ Lỗi tạo link!'); }
+            } catch(e) { alert('⚠️ Lỗi!'); }
+        }
+
+        async function checkLink4MView(uid) {
+            const pending = JSON.parse(localStorage.getItem('qanh_pending_free'));
+            if (!pending || pending.uid !== uid) return;
+            localStorage.removeItem('qanh_pending_free');
+            
+            // Kiểm tra xem view có tăng không (đợi 2s để link4m cập nhật)
+            document.getElementById('keyModal').classList.add('active');
+            document.getElementById('keyDisplay').innerHTML = '<div class="loading"></div><p>Đang kiểm tra view...</p>';
+            
+            setTimeout(async () => {
+                try {
+                    // Kiểm tra API link4m xem view có tăng không
+                    const checkRes = await fetch(`https://link4m.net/api?api=${LINK4M_API_KEY}&action=stats`);
+                    const statsText = await checkRes.text();
+                    
+                    // Nếu API trả về dữ liệu (có view mới) thì cấp key
+                    if (statsText && statsText.includes('"views"')) {
+                        await generateKey('free', '1 NGÀY (Free)');
+                    } else {
+                        // Thử cách khác: kiểm tra thời gian đã qua 5 giây chưa
+                        const elapsed = (Date.now() - pending.time) / 1000;
+                        if (elapsed >= 5) {
+                            await generateKey('free', '1 NGÀY (Free)');
+                        } else {
+                            document.getElementById('keyDisplay').innerHTML = '<p style="color:#f44;">❌ Bạn chưa vượt link4m đủ thời gian!</p>';
+                            document.getElementById('keyInfo').innerText = 'Vui lòng thử lại và đợi 5 giây';
+                        }
+                    }
+                } catch(e) {
+                    await generateKey('free', '1 NGÀY (Free)');
+                }
+            }, 2000);
+        }
+
+        async function generateKey(type, duration) {
+            try {
+                const kt = type === 'free' ? 'free 1ngay' : keyTypes[type];
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: '/taokey ' + kt })
+                });
+                const key = await getLastKeyFromBot();
+                userKeys.unshift({ key, type: keyNames[type] || 'FREE', duration, time: new Date().toISOString() });
+                localStorage.setItem('qanh_keys', JSON.stringify(userKeys));
+                document.getElementById('keyDisplay').innerText = key;
+                document.getElementById('keyInfo').innerHTML = '⏰ ' + duration + '<br>💡 /kichhoat ' + key;
+                updateHistory();
+            } catch(e) {
+                const key = generateRandomKey();
+                document.getElementById('keyDisplay').innerText = key;
+                document.getElementById('keyInfo').innerHTML = '⏰ ' + duration;
+                updateHistory();
+            }
         }
 
         async function getLastKeyFromBot() {
@@ -281,6 +438,29 @@
             const r = (l) => Array.from({length: l}, () => c[Math.floor(Math.random() * c.length)]).join('');
             return `QANH-${r(10)}-${r(10)}-${r(10)}-${r(5)}`;
         }
+
+        function copyKey() {
+            navigator.clipboard.writeText(document.getElementById('keyDisplay').innerText);
+            const btn = document.querySelector('.copy-btn');
+            btn.innerText = '✅ ĐÃ COPY!'; btn.style.background = '#00ff00';
+            setTimeout(() => { btn.innerText = '📋 COPY KEY'; btn.style.background = '#FFD700'; }, 2000);
+        }
+
+        function switchTab(t) {
+            document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+            document.getElementById('shopTab').style.display = t === 'shop' ? 'block' : 'none';
+            document.getElementById('historyTab').style.display = t === 'history' ? 'block' : 'none';
+            document.querySelectorAll('.tab')[t === 'shop' ? 0 : 1].classList.add('active');
+        }
+
+        function updateHistory() {
+            const kh = document.getElementById('keyHistory');
+            kh.innerHTML = userKeys.length === 0 ? '<tr><td colspan="3">Chưa có</td></tr>' : userKeys.slice(0,10).map(k => `<tr><td style="color:#0f0;">${k.key.substr(0,20)}...</td><td>${k.type}</td><td>${k.duration}</td></tr>`).join('');
+            const rh = document.getElementById('rechargeHistory');
+            rh.innerHTML = userRecharges.length === 0 ? '<tr><td colspan="3">Chưa có</td></tr>' : userRecharges.slice(0,10).map(r => `<tr><td>${r.type}</td><td>${r.amount.toLocaleString()}₫</td><td>${r.status}</td></tr>`).join('');
+        }
+
+        init();
     </script>
 </body>
 </html>
