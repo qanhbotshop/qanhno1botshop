@@ -88,14 +88,13 @@
                 <div id="rcResult" style="margin-top:10px;"></div>
             </div>
 
-            <!-- KEY FREE - USER THƯỜNG PHẢI VƯỢT LINK4M -->
             <div class="card" style="border-color: #00cc00;">
                 <h2>🆓 KEY FREE <span class="badge badge-free">MIỄN PHÍ</span></h2>
                 <div class="price">0₫</div>
                 <div class="duration">⏰ 1 ngày</div>
                 <ul><li>Dùng thử miễn phí</li></ul>
                 <button class="btn btn-green" onclick="getFreeKey()">🎁 NHẬN KEY FREE</button>
-                <p class="info-text" id="freeNote">⚠️ Bạn sẽ được chuyển đến link4m, vượt link xong mới nhận key</p>
+                <p class="info-text" id="freeNote">⚠️ Cần vượt link4m - Admin được tạo nhanh</p>
             </div>
 
             <div class="card" style="border-color: #9933ff;">
@@ -160,7 +159,7 @@
         <input type="number" id="adminSetBalance" placeholder="Chỉnh số dư...">
         <button class="btn btn-gold" onclick="adminSetBalance()">💾 CẬP NHẬT</button>
         <hr style="border-color:#333;margin:15px 0;">
-        <button class="btn btn-green" onclick="adminQuickFreeKey()">🎁 TẠO KEY FREE NHANH (Không cần vượt link)</button>
+        <button class="btn btn-green" onclick="adminQuickFreeKey()">🎁 TẠO KEY FREE NHANH</button>
     </div></div>
 
     <script>
@@ -183,244 +182,92 @@
         const bgMusic = document.getElementById('bgMusic');
         bgMusic.volume = 0.3;
 
-        function toggleMusic() {
-            if (musicPlaying) { bgMusic.pause(); document.getElementById('musicBtn').innerText = '🔇'; }
-            else { bgMusic.play().catch(() => {}); document.getElementById('musicBtn').innerText = '🎵'; }
-            musicPlaying = !musicPlaying;
-        }
-
-        document.addEventListener('click', () => {
-            if (!musicPlaying) { bgMusic.play().catch(() => {}); musicPlaying = true; }
-        }, { once: true });
+        function toggleMusic() { if(musicPlaying){bgMusic.pause();document.getElementById('musicBtn').innerText='🔇';} else {bgMusic.play().catch(()=>{});document.getElementById('musicBtn').innerText='🎵';} musicPlaying=!musicPlaying; }
+        document.addEventListener('click',()=>{if(!musicPlaying){bgMusic.play().catch(()=>{});musicPlaying=true;}},{once:true});
 
         function init() {
-            if (currentUser) {
-                document.getElementById('authBtn').innerText = '👤 ' + currentUser.name;
-                document.getElementById('balanceDisplay').innerText = currentUser.balance.toLocaleString();
-                if (currentUser.isAdmin) {
-                    document.getElementById('adminBtn').style.display = 'inline-block';
-                    document.getElementById('freeNote').innerHTML = '<span style="color:#0f0;">✅ Admin: Tạo key nhanh không cần vượt link</span>';
-                }
+            if(currentUser){
+                document.getElementById('authBtn').innerText='👤 '+currentUser.name;
+                document.getElementById('balanceDisplay').innerText=currentUser.balance.toLocaleString();
+                if(currentUser.isAdmin){document.getElementById('adminBtn').style.display='inline-block';document.getElementById('freeNote').innerHTML='<span style="color:#0f0;">✅ Admin: Tạo key nhanh</span>';}
             }
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('getkey') && currentUser) {
-                window.history.replaceState({}, document.title, SHOP_URL);
-                checkLink4MView(params.get('getkey'));
-            }
+            const p=new URLSearchParams(window.location.search);
+            if(p.get('getkey')&&currentUser){window.history.replaceState({},document.title,SHOP_URL);checkLink4MView(p.get('getkey'));}
             updateHistory();
         }
 
-        function handleAuth() {
-            if (currentUser) { if (confirm('Đăng xuất?')) { currentUser = null; localStorage.removeItem('qanh_user'); location.reload(); } return; }
-            document.getElementById('authModal').classList.add('active');
+        function handleAuth(){if(currentUser){if(confirm('Đăng xuất?')){currentUser=null;localStorage.removeItem('qanh_user');location.reload();}return;}document.getElementById('authModal').classList.add('active');}
+        function doAuth(){
+            const e=document.getElementById('authEmail').value.trim(),p=document.getElementById('authPassword').value.trim();
+            if(!e||!p){alert('⚠️ Điền đầy đủ!');return;}
+            if(e===ADMIN_EMAIL&&p===ADMIN_PASS){currentUser={name:'Admin',email:ADMIN_EMAIL,balance:0,isAdmin:true};localStorage.setItem('qanh_user',JSON.stringify(currentUser));alert('✅ Admin!');}
+            else{const s=allUsers.find(u=>u.email===e);if(s){currentUser={...s,balance:s.balance||0,isAdmin:false};localStorage.setItem('qanh_user',JSON.stringify(currentUser));alert('✅ Đăng nhập!');}
+            else{currentUser={name:e.split('@')[0],email:e,balance:0,isAdmin:false};allUsers.push({email:e,name:e.split('@')[0],balance:0});localStorage.setItem('qanh_all_users',JSON.stringify(allUsers));localStorage.setItem('qanh_user',JSON.stringify(currentUser));alert('✅ Đăng ký!');}}
+            document.getElementById('authModal').classList.remove('active');init();
         }
 
-        function doAuth() {
-            const email = document.getElementById('authEmail').value.trim();
-            const pass = document.getElementById('authPassword').value.trim();
-            if (!email || !pass) { alert('⚠️ Điền đầy đủ!'); return; }
-            if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-                currentUser = { name: 'Admin', email: ADMIN_EMAIL, balance: 0, isAdmin: true };
-                localStorage.setItem('qanh_user', JSON.stringify(currentUser));
-                alert('✅ Admin!');
-            } else {
-                const saved = allUsers.find(u => u.email === email);
-                if (saved) { currentUser = { ...saved, balance: saved.balance || 0, isAdmin: false }; localStorage.setItem('qanh_user', JSON.stringify(currentUser)); alert('✅ Đăng nhập!'); }
-                else {
-                    currentUser = { name: email.split('@')[0], email, balance: 0, isAdmin: false };
-                    allUsers.push({ email, name: email.split('@')[0], balance: 0 });
-                    localStorage.setItem('qanh_all_users', JSON.stringify(allUsers));
-                    localStorage.setItem('qanh_user', JSON.stringify(currentUser));
-                    alert('✅ Đăng ký!');
-                }
-            }
-            document.getElementById('authModal').classList.remove('active');
-            init();
-        }
+        function showAdmin(){if(!currentUser||!currentUser.isAdmin)return;document.getElementById('adminBalance').innerText=currentUser.balance.toLocaleString()+'₫';document.getElementById('adminModal').classList.add('active');}
+        function adminSetBalance(){const v=parseInt(document.getElementById('adminSetBalance').value);if(!v||v<0){alert('⚠️ Nhập số!');return;}currentUser.balance=v;localStorage.setItem('qanh_user',JSON.stringify(currentUser));document.getElementById('balanceDisplay').innerText=v.toLocaleString();alert('✅ OK!');}
+        async function adminQuickFreeKey(){if(!currentUser||!currentUser.isAdmin)return;document.getElementById('adminModal').classList.remove('active');await generateKey('free','1 NGÀY (Free)');}
 
-        function showAdmin() {
-            if (!currentUser || !currentUser.isAdmin) return;
-            document.getElementById('adminBalance').innerText = currentUser.balance.toLocaleString() + '₫';
-            document.getElementById('adminModal').classList.add('active');
-        }
-
-        function adminSetBalance() {
-            const val = parseInt(document.getElementById('adminSetBalance').value);
-            if (!val || val < 0) { alert('⚠️ Nhập số!'); return; }
-            currentUser.balance = val;
-            localStorage.setItem('qanh_user', JSON.stringify(currentUser));
-            document.getElementById('balanceDisplay').innerText = val.toLocaleString();
-            alert('✅ OK!');
-        }
-
-        async function adminQuickFreeKey() {
-            if (!currentUser || !currentUser.isAdmin) return;
-            document.getElementById('adminModal').classList.remove('active');
-            await generateKey('free', '1 NGÀY (Free)');
-        }
-
-        async function recharge() {
-            if (!currentUser) { alert('⚠️ Đăng nhập!'); return; }
-            const type = document.getElementById('rcType').value;
-            const amount = parseInt(document.getElementById('rcAmount').value);
-            const pin = document.getElementById('rcPin').value.trim();
-            const serial = document.getElementById('rcSerial').value.trim();
-            if (!type || !amount || !pin || !serial) { alert('⚠️ Điền đầy đủ!'); return; }
-            document.getElementById('rcResult').innerHTML = '<div class="loading"></div>';
-            try {
-                const res = await fetch('https://api.shoppay.vn/card/charge', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ partner_id: PARTNER_ID, partner_key: PARTNER_KEY, telco: type, amount, pin, serial })
-                });
-                const data = await res.json();
-                if (data.status === 1) {
-                    currentUser.balance += amount;
-                    localStorage.setItem('qanh_user', JSON.stringify(currentUser));
-                    userRecharges.unshift({ type, amount, time: new Date().toLocaleString(), status: '✅ OK' });
-                    localStorage.setItem('qanh_recharges', JSON.stringify(userRecharges));
-                    document.getElementById('balanceDisplay').innerText = currentUser.balance.toLocaleString();
-                    document.getElementById('rcResult').innerHTML = '<p style="color:#0f0;">✅ +' + amount.toLocaleString() + '₫!</p>';
-                    document.getElementById('rcPin').value = ''; document.getElementById('rcSerial').value = '';
-                } else {
-                    document.getElementById('rcResult').innerHTML = '<p style="color:#f44;">❌ ' + (data.message || 'Thẻ lỗi') + '</p>';
-                }
-            } catch(e) { document.getElementById('rcResult').innerHTML = '<p style="color:#f44;">❌ Lỗi</p>'; }
+        async function recharge(){
+            if(!currentUser){alert('⚠️ Đăng nhập!');return;}
+            const t=document.getElementById('rcType').value,a=parseInt(document.getElementById('rcAmount').value),p=document.getElementById('rcPin').value.trim(),s=document.getElementById('rcSerial').value.trim();
+            if(!t||!a||!p||!s){alert('⚠️ Điền đầy đủ!');return;}
+            document.getElementById('rcResult').innerHTML='<div class="loading"></div>';
+            try{
+                const r=await fetch('https://api.shoppay.vn/card/charge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({partner_id:PARTNER_ID,partner_key:PARTNER_KEY,telco:t,amount:a,pin:p,serial:s})});
+                const d=await r.json();
+                if(d.status===1){currentUser.balance+=a;localStorage.setItem('qanh_user',JSON.stringify(currentUser));userRecharges.unshift({type:t,amount:a,time:new Date().toLocaleString(),status:'✅ OK'});localStorage.setItem('qanh_recharges',JSON.stringify(userRecharges));document.getElementById('balanceDisplay').innerText=currentUser.balance.toLocaleString();document.getElementById('rcResult').innerHTML='<p style="color:#0f0;">✅ +'+a.toLocaleString()+'₫!</p>';document.getElementById('rcPin').value='';document.getElementById('rcSerial').value='';}
+                else{document.getElementById('rcResult').innerHTML='<p style="color:#f44;">❌ '+(d.message||'Thẻ lỗi')+'</p>';}
+            }catch(e){document.getElementById('rcResult').innerHTML='<p style="color:#f44;">❌ Lỗi</p>';}
             updateHistory();
         }
 
-        const keyPrices = { week: 50000, month: 150000, forever: 250000 };
-        const keyNames = { week: '💎 KEY 1 TUẦN', month: '🔑 KEY 1 THÁNG', forever: '👑 KEY VĨNH VIỄN' };
-        const keyDurations = { week: '7 NGÀY (VIP)', month: '30 NGÀY (VIP)', forever: 'VĨNH VIỄN (PREMIUM)' };
-        const keyTypes = { week: '1w', month: 'vip 1thang', forever: 'vip vinhvien' };
+        const keyPrices={week:50000,month:150000,forever:250000};
+        const keyNames={week:'💎 KEY 1 TUẦN',month:'🔑 KEY 1 THÁNG',forever:'👑 KEY VĨNH VIỄN'};
+        const keyDurations={week:'7 NGÀY (VIP)',month:'30 NGÀY (VIP)',forever:'VĨNH VIỄN (PREMIUM)'};
+        const keyTypes={week:'1w',month:'vip 1thang',forever:'vip vinhvien'};
 
-        function buyKey(type) {
-            if (!currentUser) { alert('⚠️ Đăng nhập!'); return; }
-            if (currentUser.balance < keyPrices[type]) { alert('❌ Không đủ! Cần ' + keyPrices[type].toLocaleString() + '₫'); return; }
-            pendingBuy = type;
-            document.getElementById('confirmKeyType').innerText = keyNames[type];
-            document.getElementById('confirmKeyPrice').innerText = keyPrices[type].toLocaleString() + '₫';
-            document.getElementById('confirmBalance').innerText = currentUser.balance.toLocaleString() + '₫';
-            document.getElementById('confirmBuyModal').classList.add('active');
+        function buyKey(t){if(!currentUser){alert('⚠️ Đăng nhập!');return;}if(currentUser.balance<keyPrices[t]){alert('❌ Không đủ!');return;}pendingBuy=t;document.getElementById('confirmKeyType').innerText=keyNames[t];document.getElementById('confirmKeyPrice').innerText=keyPrices[t].toLocaleString()+'₫';document.getElementById('confirmBalance').innerText=currentUser.balance.toLocaleString()+'₫';document.getElementById('confirmBuyModal').classList.add('active');}
+        async function confirmBuy(){if(!pendingBuy)return;const t=pendingBuy;currentUser.balance-=keyPrices[t];localStorage.setItem('qanh_user',JSON.stringify(currentUser));document.getElementById('balanceDisplay').innerText=currentUser.balance.toLocaleString();document.getElementById('confirmBuyModal').classList.remove('active');await generateKey(t,keyDurations[t]);pendingBuy=null;}
+
+        async function getFreeKey(){
+            if(!currentUser){alert('⚠️ Đăng nhập!');return;}
+            if(currentUser.isAdmin){await generateKey('free','1 NGÀY (Free)');return;}
+            const u='qanh'+Date.now().toString(36),ru=SHOP_URL+'?getkey='+u;
+            try{
+                const r=await fetch(`https://link4m.net/api?api=${LINK4M_API_KEY}&url=${encodeURIComponent(ru)}`);
+                const s=await r.text();
+                if(s&&s.trim().startsWith('http')){localStorage.setItem('qanh_pending_free',JSON.stringify({uid:u,time:Date.now()}));window.location.href=s.trim();}
+                else{alert('⚠️ Lỗi! Thử lại.');}
+            }catch(e){alert('⚠️ Lỗi!');}
         }
 
-        async function confirmBuy() {
-            if (!pendingBuy) return;
-            const type = pendingBuy;
-            currentUser.balance -= keyPrices[type];
-            localStorage.setItem('qanh_user', JSON.stringify(currentUser));
-            document.getElementById('balanceDisplay').innerText = currentUser.balance.toLocaleString();
-            document.getElementById('confirmBuyModal').classList.remove('active');
-            await generateKey(type, keyDurations[type]);
-            pendingBuy = null;
-        }
+        async function checkLink4MView(u){const p=JSON.parse(localStorage.getItem('qanh_pending_free'));if(!p||p.uid!==u)return;localStorage.removeItem('qanh_pending_free');document.getElementById('keyModal').classList.add('active');document.getElementById('keyDisplay').innerHTML='<div class="loading"></div><p>Đã vượt link! Đang tạo key...</p>';setTimeout(async()=>{await generateKey('free','1 NGÀY (Free)');},2000);}
 
-        // KEY FREE - USER THƯỜNG PHẢI VƯỢT LINK4M
-        async function getFreeKey() {
-            if (!currentUser) { alert('⚠️ Đăng nhập!'); return; }
-            
-            // ADMIN: tạo key trực tiếp, không cần vượt link
-            if (currentUser.isAdmin) {
-                await generateKey('free', '1 NGÀY (Free)');
-                return;
-            }
-            
-            // USER THƯỜNG: Phải vượt link4m
-            const uid = 'qanh' + Date.now().toString(36);
-            const returnUrl = SHOP_URL + '?getkey=' + uid;
-            
-            try {
-                const apiUrl = `https://link4m.net/api?api=${LINK4M_API_KEY}&url=${encodeURIComponent(returnUrl)}`;
-                const res = await fetch(apiUrl);
-                const shortUrl = await res.text();
-                
-                if (shortUrl && shortUrl.trim().startsWith('http')) {
-                    localStorage.setItem('qanh_pending_free', JSON.stringify({ uid, time: Date.now() }));
-                    // Chuyển hướng đến link4m - bắt buộc vượt link
-                    window.location.href = shortUrl.trim();
-                } else {
-                    alert('⚠️ Lỗi tạo link! Vui lòng thử lại.');
-                }
-            } catch(e) {
-                alert('⚠️ Lỗi kết nối! Vui lòng thử lại.');
+        async function generateKey(t,d){
+            try{
+                const k=t==='free'?'free 1ngay':keyTypes[t];
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:'/taokey '+k})});
+                await new Promise(r=>setTimeout(r,2000));
+                const key=await getLastKeyFromBot();
+                userKeys.unshift({key,type:keyNames[t]||'FREE',duration:d,time:new Date().toLocaleString()});localStorage.setItem('qanh_keys',JSON.stringify(userKeys));
+                document.getElementById('keyDisplay').innerText=key;document.getElementById('keyInfo').innerHTML='⏰ '+d+'<br>💡 /kichhoat '+key;document.getElementById('keyModal').classList.add('active');updateHistory();
+            }catch(e){
+                const key=generateRandomKey();
+                userKeys.unshift({key,type:keyNames[t]||'FREE',duration:d,time:new Date().toLocaleString()});localStorage.setItem('qanh_keys',JSON.stringify(userKeys));
+                document.getElementById('keyDisplay').innerText=key;document.getElementById('keyInfo').innerHTML='⏰ '+d;document.getElementById('keyModal').classList.add('active');updateHistory();
             }
         }
 
-        // Khi user quay lại từ link4m → kiểm tra và tạo key
-        async function checkLink4MView(uid) {
-            const pending = JSON.parse(localStorage.getItem('qanh_pending_free'));
-            if (!pending || pending.uid !== uid) return;
-            localStorage.removeItem('qanh_pending_free');
-            
-            document.getElementById('keyModal').classList.add('active');
-            document.getElementById('keyDisplay').innerHTML = '<div class="loading"></div><p>Đã vượt link4m thành công! Đang tạo key...</p>';
-            
-            setTimeout(async () => {
-                await generateKey('free', '1 NGÀY (Free)');
-            }, 2000);
-        }
+        async function getLastKeyFromBot(){try{const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?limit=10&timeout=5`);const d=await r.json();if(d.ok&&d.result&&d.result.length>0){for(let i=d.result.length-1;i>=0;i--){const m=d.result[i].message;if(m&&m.text){const x=m.text.match(/QANH-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+/);if(x)return x[0];}}}}catch(e){}return generateRandomKey();}
+        function generateRandomKey(){const c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';const r=(l)=>Array.from({length:l},()=>c[Math.floor(Math.random()*c.length)]).join('');return `QANH-${r(10)}-${r(10)}-${r(10)}-${r(5)}`;}
+        function copyKey(t){const x=t||document.getElementById('keyDisplay').innerText;navigator.clipboard.writeText(x).then(()=>alert('✅ Đã copy!'));}
+        function switchTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('shopTab').style.display=t==='shop'?'block':'none';document.getElementById('historyTab').style.display=t==='history'?'block':'none';document.querySelectorAll('.tab')[t==='shop'?0:1].classList.add('active');}
+        function updateHistory(){document.getElementById('keyHistory').innerHTML=userKeys.length===0?'<tr><td colspan="3">Chưa có</td></tr>':userKeys.map(k=>`<tr><td class="key-link" onclick="copyKey('${k.key}')">${k.key.substr(0,25)}...</td><td>${k.type}</td><td>${k.duration}</td></tr>`).join('');document.getElementById('rechargeHistory').innerHTML=userRecharges.length===0?'<tr><td colspan="3">Chưa có</td></tr>':userRecharges.map(r=>`<tr><td>${r.type}</td><td>${r.amount.toLocaleString()}₫</td><td>${r.status}</td></tr>`).join('');}
 
-        async function generateKey(type, duration) {
-            try {
-                const kt = type === 'free' ? 'free 1ngay' : keyTypes[type];
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: '/taokey ' + kt })
-                });
-                await new Promise(r => setTimeout(r, 2000));
-                const key = await getLastKeyFromBot();
-                
-                userKeys.unshift({ key, type: keyNames[type] || 'FREE', duration, time: new Date().toLocaleString() });
-                localStorage.setItem('qanh_keys', JSON.stringify(userKeys));
-                document.getElementById('keyDisplay').innerText = key;
-                document.getElementById('keyInfo').innerHTML = '⏰ ' + duration + '<br>💡 Dùng /kichhoat ' + key + ' trong Telegram';
-                document.getElementById('keyModal').classList.add('active');
-                updateHistory();
-            } catch(e) {
-                const key = generateRandomKey();
-                userKeys.unshift({ key, type: keyNames[type] || 'FREE', duration, time: new Date().toLocaleString() });
-                localStorage.setItem('qanh_keys', JSON.stringify(userKeys));
-                document.getElementById('keyDisplay').innerText = key;
-                document.getElementById('keyInfo').innerHTML = '⏰ ' + duration;
-                document.getElementById('keyModal').classList.add('active');
-                updateHistory();
-            }
-        }
-
-        async function getLastKeyFromBot() {
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?limit=10&timeout=5`);
-                const data = await res.json();
-                if (data.ok && data.result && data.result.length > 0) {
-                    for (let i = data.result.length - 1; i >= 0; i--) {
-                        const msg = data.result[i].message;
-                        if (msg && msg.text) {
-                            const m = msg.text.match(/QANH-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+/);
-                            if (m) return m[0];
-                        }
-                    }
-                }
-            } catch(e) {}
-            return generateRandomKey();
-        }
-
-        function generateRandomKey() {
-            const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            const r = (l) => Array.from({length: l}, () => c[Math.floor(Math.random() * c.length)]).join('');
-            return `QANH-${r(10)}-${r(10)}-${r(10)}-${r(5)}`;
-        }
-
-        function copyKey(text) {
-            const t = text || document.getElementById('keyDisplay').innerText;
-            navigator.clipboard.writeText(t).then(() => alert('✅ Đã copy!'));
-        }
-
-        function switchTab(t) {
-            document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-            document.getElementById('shopTab').style.display = t === 'shop' ? 'block' : 'none';
-            document.getElementById('historyTab').style.display = t === 'history' ? 'block' : 'none';
-            document.querySelectorAll('.tab')[t === 'shop' ? 0 : 1].classList.add('active');
-        }
-
-        function updateHistory() {
-            const kh = document.getElementById('keyHistory');
-            kh.innerHTML = userKeys.length === 0 ? '<tr><td colspan="3">Chưa có</td></tr>' : userKeys
+        init();
+    </script>
+</body>
+</html>
