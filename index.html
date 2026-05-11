@@ -79,7 +79,7 @@
 
         <div id="shopTab">
             <div class="card" style="border-color: #00ff88; border-width: 2px;">
-                <h2>💳 NẠP TIỀN VÀO TÀI KHOẢN <span class="badge badge-hot">QUAN TRỌNG</span></h2>
+                <h2>💳 NẠP TIỀN VÀO TÀI KHOẢN</h2>
                 <select id="rcType"><option value="">Chọn loại thẻ</option><option value="VIETTEL">📱 Viettel</option><option value="MOBIFONE">📱 Mobifone</option><option value="VINAPHONE">📱 Vinaphone</option><option value="GARENA">🎮 Garena</option></select>
                 <select id="rcAmount"><option value="">Chọn mệnh giá</option><option value="10000">10,000₫</option><option value="20000">20,000₫</option><option value="50000">50,000₫</option><option value="100000">100,000₫</option><option value="200000">200,000₫</option><option value="500000">500,000₫</option></select>
                 <input type="text" id="rcPin" placeholder="🔢 Nhập mã thẻ...">
@@ -88,13 +88,14 @@
                 <div id="rcResult" style="margin-top:10px;"></div>
             </div>
 
+            <!-- KEY FREE - USER THƯỜNG PHẢI VƯỢT LINK4M -->
             <div class="card" style="border-color: #00cc00;">
                 <h2>🆓 KEY FREE <span class="badge badge-free">MIỄN PHÍ</span></h2>
                 <div class="price">0₫</div>
                 <div class="duration">⏰ 1 ngày</div>
                 <ul><li>Dùng thử miễn phí</li></ul>
                 <button class="btn btn-green" onclick="getFreeKey()">🎁 NHẬN KEY FREE</button>
-                <p class="info-text">⚠️ Cần vượt link4m (5 giây) - Admin được tạo nhanh</p>
+                <p class="info-text" id="freeNote">⚠️ Bạn sẽ được chuyển đến link4m, vượt link xong mới nhận key</p>
             </div>
 
             <div class="card" style="border-color: #9933ff;">
@@ -159,7 +160,7 @@
         <input type="number" id="adminSetBalance" placeholder="Chỉnh số dư...">
         <button class="btn btn-gold" onclick="adminSetBalance()">💾 CẬP NHẬT</button>
         <hr style="border-color:#333;margin:15px 0;">
-        <button class="btn btn-green" onclick="adminQuickFreeKey()">🎁 TẠO KEY FREE NHANH</button>
+        <button class="btn btn-green" onclick="adminQuickFreeKey()">🎁 TẠO KEY FREE NHANH (Không cần vượt link)</button>
     </div></div>
 
     <script>
@@ -196,7 +197,10 @@
             if (currentUser) {
                 document.getElementById('authBtn').innerText = '👤 ' + currentUser.name;
                 document.getElementById('balanceDisplay').innerText = currentUser.balance.toLocaleString();
-                if (currentUser.isAdmin) document.getElementById('adminBtn').style.display = 'inline-block';
+                if (currentUser.isAdmin) {
+                    document.getElementById('adminBtn').style.display = 'inline-block';
+                    document.getElementById('freeNote').innerHTML = '<span style="color:#0f0;">✅ Admin: Tạo key nhanh không cần vượt link</span>';
+                }
             }
             const params = new URLSearchParams(window.location.search);
             if (params.get('getkey') && currentUser) {
@@ -246,7 +250,6 @@
             currentUser.balance = val;
             localStorage.setItem('qanh_user', JSON.stringify(currentUser));
             document.getElementById('balanceDisplay').innerText = val.toLocaleString();
-            document.getElementById('adminBalance').innerText = val.toLocaleString() + '₫';
             alert('✅ OK!');
         }
 
@@ -266,8 +269,7 @@
             document.getElementById('rcResult').innerHTML = '<div class="loading"></div>';
             try {
                 const res = await fetch('https://api.shoppay.vn/card/charge', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ partner_id: PARTNER_ID, partner_key: PARTNER_KEY, telco: type, amount, pin, serial })
                 });
                 const data = await res.json();
@@ -280,8 +282,6 @@
                     document.getElementById('rcResult').innerHTML = '<p style="color:#0f0;">✅ +' + amount.toLocaleString() + '₫!</p>';
                     document.getElementById('rcPin').value = ''; document.getElementById('rcSerial').value = '';
                 } else {
-                    userRecharges.unshift({ type, amount, time: new Date().toLocaleString(), status: '❌ ' + (data.message || 'Lỗi') });
-                    localStorage.setItem('qanh_recharges', JSON.stringify(userRecharges));
                     document.getElementById('rcResult').innerHTML = '<p style="color:#f44;">❌ ' + (data.message || 'Thẻ lỗi') + '</p>';
                 }
             } catch(e) { document.getElementById('rcResult').innerHTML = '<p style="color:#f44;">❌ Lỗi</p>'; }
@@ -291,11 +291,11 @@
         const keyPrices = { week: 50000, month: 150000, forever: 250000 };
         const keyNames = { week: '💎 KEY 1 TUẦN', month: '🔑 KEY 1 THÁNG', forever: '👑 KEY VĨNH VIỄN' };
         const keyDurations = { week: '7 NGÀY (VIP)', month: '30 NGÀY (VIP)', forever: 'VĨNH VIỄN (PREMIUM)' };
-        const keyTypes = { week: 'vip 1thang', month: 'vip 1thang', forever: 'vip vinhvien' };
+        const keyTypes = { week: '1w', month: 'vip 1thang', forever: 'vip vinhvien' };
 
         function buyKey(type) {
             if (!currentUser) { alert('⚠️ Đăng nhập!'); return; }
-            if (currentUser.balance < keyPrices[type]) { alert('❌ Không đủ!'); return; }
+            if (currentUser.balance < keyPrices[type]) { alert('❌ Không đủ! Cần ' + keyPrices[type].toLocaleString() + '₫'); return; }
             pendingBuy = type;
             document.getElementById('confirmKeyType').innerText = keyNames[type];
             document.getElementById('confirmKeyPrice').innerText = keyPrices[type].toLocaleString() + '₫';
@@ -314,66 +314,65 @@
             pendingBuy = null;
         }
 
+        // KEY FREE - USER THƯỜNG PHẢI VƯỢT LINK4M
         async function getFreeKey() {
             if (!currentUser) { alert('⚠️ Đăng nhập!'); return; }
-            // Admin tạo nhanh không cần vượt link
-            if (currentUser.isAdmin) { await generateKey('free', '1 NGÀY (Free)'); return; }
             
-            // Người dùng thường: tạo link4m và chuyển hướng
+            // ADMIN: tạo key trực tiếp, không cần vượt link
+            if (currentUser.isAdmin) {
+                await generateKey('free', '1 NGÀY (Free)');
+                return;
+            }
+            
+            // USER THƯỜNG: Phải vượt link4m
             const uid = 'qanh' + Date.now().toString(36);
             const returnUrl = SHOP_URL + '?getkey=' + uid;
             
             try {
-                // Dùng API link4m để rút gọn link
                 const apiUrl = `https://link4m.net/api?api=${LINK4M_API_KEY}&url=${encodeURIComponent(returnUrl)}`;
                 const res = await fetch(apiUrl);
                 const shortUrl = await res.text();
                 
                 if (shortUrl && shortUrl.trim().startsWith('http')) {
-                    // Lưu pending để kiểm tra khi quay lại
                     localStorage.setItem('qanh_pending_free', JSON.stringify({ uid, time: Date.now() }));
-                    // Chuyển hướng đến link4m
+                    // Chuyển hướng đến link4m - bắt buộc vượt link
                     window.location.href = shortUrl.trim();
                 } else {
-                    // Nếu API không trả về link, thử tạo link thủ công
-                    const fallbackUrl = `https://link4m.net/st/qanhfree?r=${uid}`;
-                    localStorage.setItem('qanh_pending_free', JSON.stringify({ uid, time: Date.now() }));
-                    window.location.href = fallbackUrl;
+                    alert('⚠️ Lỗi tạo link! Vui lòng thử lại.');
                 }
             } catch(e) {
-                // Nếu lỗi, tạo key trực tiếp
-                await generateKey('free', '1 NGÀY (Free)');
+                alert('⚠️ Lỗi kết nối! Vui lòng thử lại.');
             }
         }
 
+        // Khi user quay lại từ link4m → kiểm tra và tạo key
         async function checkLink4MView(uid) {
             const pending = JSON.parse(localStorage.getItem('qanh_pending_free'));
             if (!pending || pending.uid !== uid) return;
             localStorage.removeItem('qanh_pending_free');
             
-            // Hiện modal đợi
             document.getElementById('keyModal').classList.add('active');
-            document.getElementById('keyDisplay').innerHTML = '<div class="loading"></div><p>Đang kiểm tra view link4m...</p>';
+            document.getElementById('keyDisplay').innerHTML = '<div class="loading"></div><p>Đã vượt link4m thành công! Đang tạo key...</p>';
             
-            // Đợi 3 giây để link4m ghi nhận view, sau đó tạo key
             setTimeout(async () => {
                 await generateKey('free', '1 NGÀY (Free)');
-            }, 3000);
+            }, 2000);
         }
 
         async function generateKey(type, duration) {
             try {
                 const kt = type === 'free' ? 'free 1ngay' : keyTypes[type];
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ chat_id: CHAT_ID, text: '/taokey ' + kt })
                 });
+                await new Promise(r => setTimeout(r, 2000));
                 const key = await getLastKeyFromBot();
+                
                 userKeys.unshift({ key, type: keyNames[type] || 'FREE', duration, time: new Date().toLocaleString() });
                 localStorage.setItem('qanh_keys', JSON.stringify(userKeys));
                 document.getElementById('keyDisplay').innerText = key;
-                document.getElementById('keyInfo').innerHTML = '⏰ ' + duration;
+                document.getElementById('keyInfo').innerHTML = '⏰ ' + duration + '<br>💡 Dùng /kichhoat ' + key + ' trong Telegram';
                 document.getElementById('keyModal').classList.add('active');
                 updateHistory();
             } catch(e) {
@@ -389,12 +388,12 @@
 
         async function getLastKeyFromBot() {
             try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?limit=5`);
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?limit=10&timeout=5`);
                 const data = await res.json();
-                if (data.ok) {
+                if (data.ok && data.result && data.result.length > 0) {
                     for (let i = data.result.length - 1; i >= 0; i--) {
                         const msg = data.result[i].message;
-                        if (msg && msg.text && msg.text.includes('QANH-')) {
+                        if (msg && msg.text) {
                             const m = msg.text.match(/QANH-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+/);
                             if (m) return m[0];
                         }
@@ -424,12 +423,4 @@
 
         function updateHistory() {
             const kh = document.getElementById('keyHistory');
-            kh.innerHTML = userKeys.length === 0 ? '<tr><td colspan="3">Chưa có</td></tr>' : userKeys.map(k => `<tr><td class="key-link" onclick="copyKey('${k.key}')">${k.key.substr(0,25)}...</td><td>${k.type}</td><td>${k.duration}</td></tr>`).join('');
-            const rh = document.getElementById('rechargeHistory');
-            rh.innerHTML = userRecharges.length === 0 ? '<tr><td colspan="3">Chưa có</td></tr>' : userRecharges.map(r => `<tr><td>${r.type}</td><td>${r.amount.toLocaleString()}₫</td><td>${r.status}</td></tr>`).join('');
-        }
-
-        init();
-    </script>
-</body>
-</html>
+            kh.innerHTML = userKeys.length === 0 ? '<tr><td colspan="3">Chưa có</td></tr>' : userKeys
