@@ -232,32 +232,43 @@
         function buyKey(t){if(!currentUser){alert('⚠️ Đăng nhập!');return;}if(currentUser.balance<keyPrices[t]){alert('❌ Không đủ!');return;}pendingBuy=t;document.getElementById('confirmKeyType').innerText=keyNames[t];document.getElementById('confirmKeyPrice').innerText=keyPrices[t].toLocaleString()+'₫';document.getElementById('confirmBalance').innerText=currentUser.balance.toLocaleString()+'₫';document.getElementById('confirmBuyModal').classList.add('active');}
         async function confirmBuy(){if(!pendingBuy)return;const t=pendingBuy;currentUser.balance-=keyPrices[t];localStorage.setItem('qanh_user',JSON.stringify(currentUser));document.getElementById('balanceDisplay').innerText=currentUser.balance.toLocaleString();document.getElementById('confirmBuyModal').classList.remove('active');await generateKey(t,keyDurations[t]);pendingBuy=null;}
 
+        // ===== KEY FREE - DÙNG API MỚI link4m.co/api-shorten/v2 =====
         async function getFreeKey(){
             if(!currentUser){alert('⚠️ Đăng nhập!');return;}
             if(currentUser.isAdmin){await generateKey('free','1 NGÀY (Free)');return;}
-            const u='qanh'+Date.now().toString(36),ru=SHOP_URL+'?getkey='+u;
+            const uid='qanh'+Date.now().toString(36),returnUrl=SHOP_URL+'?getkey='+uid;
             try{
-                const r=await fetch(`https://link4m.net/api?api=${LINK4M_API_KEY}&url=${encodeURIComponent(ru)}`);
-                const s=await r.text();
-                if(s&&s.trim().startsWith('http')){localStorage.setItem('qanh_pending_free',JSON.stringify({uid:u,time:Date.now()}));window.location.href=s.trim();}
-                else{alert('⚠️ Lỗi! Thử lại.');}
-            }catch(e){alert('⚠️ Lỗi!');}
+                const apiUrl=`https://link4m.co/api-shorten/v2?api=${LINK4M_API_KEY}&url=${encodeURIComponent(returnUrl)}`;
+                const res=await fetch(apiUrl);
+                const data=await res.json();
+                if(data.status==='success'&&data.shortenedUrl){
+                    localStorage.setItem('qanh_pending_free',JSON.stringify({uid,time:Date.now()}));
+                    window.location.href=data.shortenedUrl;
+                }else{alert('⚠️ Lỗi tạo link! Thử lại.');}
+            }catch(e){alert('⚠️ Lỗi kết nối!');}
         }
 
-        async function checkLink4MView(u){const p=JSON.parse(localStorage.getItem('qanh_pending_free'));if(!p||p.uid!==u)return;localStorage.removeItem('qanh_pending_free');document.getElementById('keyModal').classList.add('active');document.getElementById('keyDisplay').innerHTML='<div class="loading"></div><p>Đã vượt link! Đang tạo key...</p>';setTimeout(async()=>{await generateKey('free','1 NGÀY (Free)');},2000);}
+        async function checkLink4MView(uid){
+            const pending=JSON.parse(localStorage.getItem('qanh_pending_free'));
+            if(!pending||pending.uid!==uid)return;
+            localStorage.removeItem('qanh_pending_free');
+            document.getElementById('keyModal').classList.add('active');
+            document.getElementById('keyDisplay').innerHTML='<div class="loading"></div><p>Đã vượt link! Đang tạo key...</p>';
+            setTimeout(async()=>{await generateKey('free','1 NGÀY (Free)');},2000);
+        }
 
-        async function generateKey(t,d){
+        async function generateKey(type,duration){
             try{
-                const k=t==='free'?'free 1ngay':keyTypes[t];
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:'/taokey '+k})});
+                const kt=type==='free'?'free 1ngay':keyTypes[type];
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:'/taokey '+kt})});
                 await new Promise(r=>setTimeout(r,2000));
                 const key=await getLastKeyFromBot();
-                userKeys.unshift({key,type:keyNames[t]||'FREE',duration:d,time:new Date().toLocaleString()});localStorage.setItem('qanh_keys',JSON.stringify(userKeys));
-                document.getElementById('keyDisplay').innerText=key;document.getElementById('keyInfo').innerHTML='⏰ '+d+'<br>💡 /kichhoat '+key;document.getElementById('keyModal').classList.add('active');updateHistory();
+                userKeys.unshift({key,type:keyNames[type]||'FREE',duration,time:new Date().toLocaleString()});localStorage.setItem('qanh_keys',JSON.stringify(userKeys));
+                document.getElementById('keyDisplay').innerText=key;document.getElementById('keyInfo').innerHTML='⏰ '+duration+'<br>💡 /kichhoat '+key;document.getElementById('keyModal').classList.add('active');updateHistory();
             }catch(e){
                 const key=generateRandomKey();
-                userKeys.unshift({key,type:keyNames[t]||'FREE',duration:d,time:new Date().toLocaleString()});localStorage.setItem('qanh_keys',JSON.stringify(userKeys));
-                document.getElementById('keyDisplay').innerText=key;document.getElementById('keyInfo').innerHTML='⏰ '+d;document.getElementById('keyModal').classList.add('active');updateHistory();
+                userKeys.unshift({key,type:keyNames[type]||'FREE',duration,time:new Date().toLocaleString()});localStorage.setItem('qanh_keys',JSON.stringify(userKeys));
+                document.getElementById('keyDisplay').innerText=key;document.getElementById('keyInfo').innerHTML='⏰ '+duration;document.getElementById('keyModal').classList.add('active');updateHistory();
             }
         }
 
